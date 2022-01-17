@@ -24,7 +24,11 @@ class NewsController extends Controller
      */
     public function create()
     {
-        //
+
+        return view('news/createForm', [
+            // TODO выбрать поля без использования идентификатора новости
+            'news' => $this->getNews(1),
+        ]);
     }
 
     /**

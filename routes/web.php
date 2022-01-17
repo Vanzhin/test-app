@@ -23,8 +23,8 @@ use \App\Http\Controllers\Admin\NewsController as AdminNewsController;
 
 Route::get('/', [Controller::class, 'index']);
 
-Route::get('/auth', [AuthController::class, 'index'])
-    ->name('auth.index');
+Route::get('/admin', [AuthController::class, 'index'])
+    ->name('admin.index');
 
 Route::get('/news', [NewsController::class, 'index'])
     ->name('news.index');
@@ -39,8 +39,12 @@ Route::get('/news/categories/{category_id}', [NewsController::class, 'showByCat'
     ->name('news.categories.show');
 
 Route::group(['as' => 'admin.', 'prefix' => 'admin'], function(){
-    Route::resource('/categories', AdminCategoryController::class);
-    Route::resource('/news', AdminNewsController::class);
+    Route::resources([
+        '/categories' => AdminCategoryController::class,
+        '/news'=> AdminNewsController::class,
+        ]
+    );
+    Route::get('/news/create', [AdminNewsController::class, 'create']);
 });
 
 

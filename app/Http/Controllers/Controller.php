@@ -90,4 +90,16 @@ class Controller extends BaseController
 
         ];
     }
+    public function getNewsByCat(int $category_id = null): array
+    {
+        $news = $this->getNews();
+        foreach ($news as $item){
+            if ($category_id === $item['category_id'])
+            $data[] = $item;
+        }
+
+
+
+        return $data;
+    }
 }

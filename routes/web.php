@@ -32,6 +32,11 @@ Route::get('/categories', [CategoryController::class, 'index'])
 Route::get('/news/{id}', [NewsController::class, 'show'])
     ->where('id', '\d+')
     ->name('news.show');
+
+Route::get('/news/categories/{category_id}', [NewsController::class, 'showByCat'])
+    ->where('category_id', '\d+')
+    ->name('news.categories.show');
+
 Route::group(['as' => 'admin.', 'prefix' => 'admin'], function(){
     Route::resource('/categories', AdminCategoryController::class);
     Route::resource('/news', AdminNewsController::class);

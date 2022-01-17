@@ -19,4 +19,12 @@ class NewsController extends Controller
             'news' => $this->getNews($id),
         ]);
     }
+
+    public function showByCat(int $id)
+    {
+        return view('news/news_by_cat', [
+            'newsList' => $this->getNewsByCat($id),
+        ]);
+    }
+
 }

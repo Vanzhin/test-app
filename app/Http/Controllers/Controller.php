@@ -13,6 +13,13 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
 
+    public function index()
+    {
+        return view('index', [
+            'menu' => $this->getMenu(),
+        ]);
+    }
+
     public function getNews(?int $id = null): array
     {
         $faker = Factory::create();
@@ -70,5 +77,17 @@ class Controller extends BaseController
 
 
         return $data;
+    }
+
+    public function getMenu(): array
+    {
+        return $menu = [
+            'Главная' => '/',
+            'Новости' => '/news',
+            'Категории' => '/categories',
+
+
+
+        ];
     }
 }

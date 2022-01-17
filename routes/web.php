@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-use \App\Http\Controllers\NewsController;
+use \App\Http\Controllers\{NewsController, Controller};
 use \App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use \App\Http\Controllers\Admin\NewsController as AdminNewsController;
 /*
@@ -16,14 +16,12 @@ use \App\Http\Controllers\Admin\NewsController as AdminNewsController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
 
 
-Route::get('/about', function () {
-    return view('about');
-});
+Route::get('/', [Controller::class, 'index']);
 
 
 

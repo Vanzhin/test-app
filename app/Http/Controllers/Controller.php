@@ -53,7 +53,7 @@ class Controller extends BaseController
         return $data;
     }
 
-    public function getCategory(?int $id = null): array
+    public function getCategories(?int $id = null): array
     {
         $faker = Factory::create();
         $categoryNumber = 5;

@@ -85,6 +85,7 @@ class Controller extends BaseController
             'Главная' => '/',
             'Новости' => '/news',
             'Категории' => '/categories',
+            'Войти/Зарегистрироваться' => '/auth'
 
 
 

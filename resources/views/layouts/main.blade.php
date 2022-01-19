@@ -3,7 +3,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <title>News - test</title>
+    <title>@section('title') News - @show</title>
 
 
     <!-- Bootstrap core CSS -->
@@ -67,16 +67,9 @@
 
     @yield('header')
 
-    <div class="album py-5 bg-light">
-        <div class="container">
 
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-               @yield('content')
-            </div>
-        </div>
-    </div>
+    @yield('content')
 
-</main>
 
 <footer class="text-muted py-5">
     <div class="container">

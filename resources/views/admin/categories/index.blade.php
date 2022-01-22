@@ -8,7 +8,7 @@
         <h1 class="h2">Список категорий</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
-                <button type="button" class="btn btn-sm btn-outline-secondary">Добавить</button>
+                <a href="{{ route('admin.categories.create') }}" type="button" class="btn btn-sm btn-outline-secondary">Добавить</a>
                 <button type="button" class="btn btn-sm btn-outline-secondary">Удалить</button>
             </div>
         </div>
@@ -17,13 +17,13 @@
 
 @section('content')
 <div>
-    <?php foreach ($categoryList as $category):?>
-    <p>Идентификатор категории: <?=$category['id']?></p>
-    <p>Название категории: <?=$category['title']?></p>
-    <p>Дата создания категории: <?=$category['created_at']?></p>
+    @foreach ($categoryList as $category)
+    <p>Идентификатор категории: {{ $category['id'] }}</p>
+    <p>Название категории: {{ $category['title'] }}</p>
+    <p>Дата создания категории: {{ $category['created_at'] }}</p>
     <hr>
 
 
-    <?php endforeach;?>
+    @endforeach
 </div>
 @endsection

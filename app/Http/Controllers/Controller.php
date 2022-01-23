@@ -8,6 +8,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 
+
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
@@ -15,9 +16,7 @@ class Controller extends BaseController
 
     public function index()
     {
-        return view('index', [
-            'menu' => $this->getMenu(),
-        ]);
+        return view('index');
     }
 
     public function getNews(?int $id = null): array
@@ -79,18 +78,7 @@ class Controller extends BaseController
         return $data;
     }
 
-    public function getMenu(): array
-    {
-        return $menu = [
-            'Главная' => '/',
-            'Новости' => '/news',
-            'Категории' => '/categories',
-            'Войти/Зарегистрироваться' => '/admin'
 
-
-
-        ];
-    }
     public function getNewsByCat(int $category_id = null): array
     {
         $news = $this->getNews();

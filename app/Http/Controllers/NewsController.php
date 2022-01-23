@@ -24,6 +24,7 @@ class NewsController extends Controller
     {
         return view('news/news_by_cat', [
             'newsList' => $this->getNewsByCat($id),
+            'category_id' => $id
         ]);
     }
 

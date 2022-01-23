@@ -55,8 +55,6 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function(){
     ->name('news.create');
     Route::get('/', [AdminController::class, 'index'])
         ->name('index');
-
-
 });
 
 

@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class FeedbackController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +13,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('admin.categories.index', [
-            'categoryList' => $this->getCategories(),
-        ]);
+        return view('feedback.index');
+
     }
 
     /**
@@ -26,9 +24,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('admin.categories.create', [
-            'categoryList' => $this->getCategories(1),
-        ]);
+        return view('feedback.create');
+
     }
 
     /**

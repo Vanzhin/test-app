@@ -27,7 +27,7 @@ class NewsController extends Controller
     public function create()
     {
 
-        return view('admin/news/create', [
+        return view('admin.news.create', [
             // TODO выбрать поля без использования идентификатора новости
             'news' => $this->getNews(1),
         ]);
@@ -41,7 +41,14 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate(['title'=>[
+            'min:5',
+            'required',
+            'string'
+
+        ]]);
+
+        dd($request->all());
     }
 
     /**

@@ -48,7 +48,7 @@ class NewsController extends Controller
 
         ]]);
 
-        dd($request->all());
+        return $request->all();
     }
 
     /**

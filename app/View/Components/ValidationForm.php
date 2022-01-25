@@ -4,15 +4,8 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class Header extends Component
+class ValidationForm extends Component
 {
-    public static array $menu = [
-        'Новости' => 'news.index',
-        'Категории' => 'categories.index',
-        'Отзывы' => 'feedback.index',
-        'Запрос' => 'query.create'
-
-    ];
     /**
      * Create a new component instance.
      *
@@ -22,10 +15,6 @@ class Header extends Component
     {
         //
     }
-    static function getMenu()
-    {
-        return Header::$menu;
-    }
 
     /**
      * Get the view / contents that represent the component.
@@ -34,6 +23,6 @@ class Header extends Component
      */
     public function render()
     {
-        return view('components.header');
+        return view('components.validation-form');
     }
 }

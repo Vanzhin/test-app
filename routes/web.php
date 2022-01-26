@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-use \App\Http\Controllers\{NewsController, Controller, CategoryController, AuthController};
+use \App\Http\Controllers\{NewsController, Controller, CategoryController, AuthController, FeedbackController, QueryController};
 use \App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use \App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use \App\Http\Controllers\Admin\AdminController;
@@ -25,7 +25,19 @@ use \App\Http\Controllers\Admin\AdminController;
 Route::get('/', [Controller::class, 'index'])
     ->name('index');
 
+Route::get('/feedback', [FeedbackController::class, 'index'])
+    ->name('feedback.index');
+Route::get('/feedback/create', [FeedbackController::class, 'create'])
+    ->name('feedback.create');
 
+
+Route::resources([
+    '/feedback' => FeedbackController::class,
+    '/query' => QueryController::class,
+]);
+
+Route::get('/query/create', [QueryController::class, 'create'])
+    ->name('query.create');
 
 Route::get('/news', [NewsController::class, 'index'])
     ->name('news.index');

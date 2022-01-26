@@ -19,6 +19,7 @@ class Controller extends BaseController
         return view('index');
     }
 
+
     public function getNews(?int $id = null): array
     {
         $faker = Factory::create();

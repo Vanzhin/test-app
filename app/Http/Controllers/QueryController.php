@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class QueryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +13,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('admin.categories.index', [
-            'categoryList' => $this->getCategories(),
-        ]);
+        //
     }
 
     /**
@@ -26,9 +23,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('admin.categories.create', [
-            'categoryList' => $this->getCategories(1),
-        ]);
+        return view('query.create');
+
     }
 
     /**
@@ -39,7 +35,9 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        return $request->all();
+        $fileName = 'file.json';
+        file_put_contents($fileName, json_encode($request->all()), FILE_APPEND);
+        return file_get_contents($fileName) ;
     }
 
     /**

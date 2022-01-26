@@ -13,19 +13,23 @@
 @endsection
 
 @section('content')
-    <div>
+    <form method="post" action="{{ route('admin.categories.store') }}">
+        @csrf
         @foreach ($categoryList as $key => $item)
-        <div>
-            <p>Поле для : {{ $key }}</p>
-            <input type="text">
+            @if($key === 'id')
+
+                @continue;
+            @endif
+        <div class="form-group">
+            <label for="{{ $key }}"><p>Поле для : {{ $key }}</p></label>
+            <input type="text" class="form-control" id="{{ $key }}" name="{{ $key }}">
             <br>
             <br>
         </div>
 
         @endforeach
-        {{-- TODO route('admin.categories.store') не работает --}}
-            <a href="{{ route('admin.categories.store') }}" type="button" class="btn btn-sm btn-outline-secondary">Добавить</a>
+        <button type="submit"  class="btn btn-success">Добавить</button>
 
-    </div>
+    </form>
 @endsection
 

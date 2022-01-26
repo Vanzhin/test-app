@@ -19,6 +19,10 @@ class Controller extends BaseController
         return view('index');
     }
 
+    public function feedback()
+    {
+        return view('feedback');
+    }
 
     public function getNews(?int $id = null): array
     {

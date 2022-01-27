@@ -20,7 +20,7 @@ class CreateNewsCategoriesTable extends Migration
                 ->on('news')
                 ->cascadeOnDelete();
 
-            $table->foreignId('categories_id')
+            $table->foreignId('category_id')
             ->constrained('categories')
             ->cascadeOnDelete();
         });

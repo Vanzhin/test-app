@@ -26,8 +26,10 @@ class NewsController extends Controller
 
     public function showByCat(int $id)
     {
+        $news = new News();
+
         return view('news/news_by_cat', [
-            'newsList' => $this->getNewsByCat($id),
+            'newsList' => $news->getNewsByCategory($id),
             'category_id' => $id
         ]);
     }

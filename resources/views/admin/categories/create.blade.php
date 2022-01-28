@@ -15,21 +15,17 @@
 @section('content')
     <form method="post" action="{{ route('admin.categories.store') }}">
         @csrf
-        @foreach ($categoryList as $key => $item)
-            @if($key === 'id')
-
-                @continue;
+        @foreach ($categoryList as $item)
+            @if($item === 'title' or $item === 'description')
+                <div class="form-group">
+                    <label for="{{ $item }}"><p>Поле для : {{ $item }}</p></label>
+                    <input type="text" class="form-control" id="{{ $item }}" name="{{ $item }}">
+                    <br>
+                    <br>
+                </div>
             @endif
-        <div class="form-group">
-            <label for="{{ $key }}"><p>Поле для : {{ $key }}</p></label>
-            <input type="text" class="form-control" id="{{ $key }}" name="{{ $key }}">
-            <br>
-            <br>
-        </div>
-
         @endforeach
         <button type="submit"  class="btn btn-success">Добавить</button>
-
     </form>
 @endsection
 

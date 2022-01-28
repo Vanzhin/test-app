@@ -19,12 +19,12 @@
                 <div class="card shadow-sm">
 
                     <div class="card-body">
-                        <p class="card-text">ID: {{ $category['id'] }}</p>
-                        <p class="card-text"> Название категории: {{ $category['title'] }}</p>
-                        <p class="card-text"> Дата создания категории: {{ $category['created_at'] }}</p>
+                        <p class="card-text">ID: {{ $category->id }}</p>
+                        <p class="card-text"> Название категории: {{ $category->title }}</p>
+                        <p class="card-text"> Дата создания категории: {{ $category->created_at }}</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
-                                <a href="{{ route('news.categories.show', ['category_id' => $category['id']] ) }}" type="button" class="btn btn-sm btn-outline-secondary">Все новости категории</a>
+                                <a href="{{ route('news.categories.show', ['category_id' => $category->id] ) }}" type="button" class="btn btn-sm btn-outline-secondary">Все новости категории</a>
                             </div>
                         </div>
 

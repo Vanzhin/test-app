@@ -7,32 +7,39 @@
         <h1 class="h2">Список новостей</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
-                <a href="{{ route('admin.news.create') }}" type="button" class="btn btn-sm btn-outline-secondary">Добавить</a>
-                <button type="button" class="btn btn-sm btn-outline-secondary">Удалить</button>
+                <a href="{{ route('admin.news.create') }}" type="button" class="btn btn-sm btn-secondary">Добавить</a>
             </div>
         </div>
     </div>
 @endsection
 @section('content')
 
-    <div>
-        @forelse($newsList as $news)
-
-            <p class="card-text"><strong>{!! $news['description'] !!}</strong></p>
-            <p class="card-text"> Автор: {{ $news['author'] }}</p>
-            <p class="card-text"> Добавлено: {{ $news['created_at'] }}</p>
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                    <a href="{{ route('news.show',['id' => $news['id']]) }}" type="button" class="btn btn-sm btn-outline-secondary">Подробнее</a>
-                    <a href="{{ route('news.categories.show', ['category_id' => $news['category_id']]) }}" type="button" class="btn btn-sm btn-outline-secondary">Все новости раздела</a>
-                </div>
-            </div>
-            <hr>
-
-        @empty
-            <h2>Записей нет</h2>
-
-        @endforelse
+    <div class="table-responsive">
+        <table class="table table-bordered table-sm table-hover">
+            <thead class="thead-light">
+            <tr>
+                @foreach($fields as $item)
+                    <th scope="col">{{$item}}</th>
+                @endforeach
+            </tr>
+            </thead>
+            <tbody>
+            @forelse($newsList as $news)
+                <tr>
+                    @foreach($news as $item)
+                        <td >{{$item}}</td>
+                    @endforeach
+                    <td>
+                        <div class="d-flex">
+                            <a href="#" type="button" class="btn btn-warning">Редактировать</a>
+                            <a href="#" type="button" class="btn btn-danger">Удалить</a>
+                        </div>
+                    </td>
+                </tr>
+            @empty
+                <p>Записей нет</p>
+            @endforelse
+            </tbody>
+        </table>
     </div>
-
 @endsection

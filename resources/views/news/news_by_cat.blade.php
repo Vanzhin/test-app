@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title')
-    @parent новости категории: {{ $category_id }}
+    @parent Новости категории: {{ $category_id }}
 @endsection
 @section('header')
     <section class="py-5 text-center container">
@@ -18,14 +18,19 @@
                 @forelse($newsList as $news)
                     <div class="col">
                         <div class="card shadow-sm">
-                            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">{{ $news['title'] }}</text></svg>
-                            <div class="card-body">
-                                <p class="card-text">{!! $news['description'] !!}</p>
-                                <p class="card-text"> Автор: {{ $news['author'] }}</p>
-                                <p class="card-text"> Добавлено: {{ $news['created_at'] }}</p>
+                            <div class="card-img" style="position: relative">
+                                <img src="{!! $news->image !!}" class="card-img-top" alt="{{ $news->title }}">
+                                <strong>
+                                    <p class="card-text " style="position: absolute; top: 50%;left: 15%;width: 80%; color: white; text-align: center; font-size: large">{{  $news->title }}</p>
+                                </strong>
+
+                            </div>                            <div class="card-body">
+                                <p class="card-text">{!! $news->description !!}</p>
+                                <p class="card-text"> Автор: {{ $news->author }}</p>
+                                <p class="card-text"> Добавлено: {{ $news->created_at }}</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <a href="{{ route('news.show',['id' => $news['id']]) }}" type="button" class="btn btn-sm btn-outline-secondary">Подробнее</a>
+                                        <a href="{{ route('news.show',['id' => $news->id]) }}" type="button" class="btn btn-sm btn-outline-secondary">Подробнее</a>
                                     </div>
                                     <small class="text-muted">9 mins</small>
                                 </div>

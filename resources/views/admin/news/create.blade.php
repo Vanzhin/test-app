@@ -22,26 +22,21 @@
         @endif
     @csrf
         <div class="form-group">
-            @foreach ($news as $key => $item)
+            @foreach ($news as  $item)
 
-                @if($key === 'id' or $key === 'created_at')
-                    @continue;
+                <label for="{{ $item }}"><p>Поле для : {{ $item }}</p></label>
+                @if($item === 'status')
+                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                        <option value="draft" selected>draft</option>
+                        <option value="active">active</option>
+                        <option value="blocked">blocked</option>
+
+                    </select>
                 @endif
-
-                <label for="{{ $key }}"><p>Поле для : {{ $key }}</p></label>
-                <input type="text" class="form-control" id="{{ $key }}" name="{{ $key }}" value="{{old($key)}}">
+                <input type="text" class="form-control" id="{{ $item }}" name="{{ $item }}" value="{{old($item)}}">
             @endforeach
         </div>
-        <div class="form-group">
-            <label for="full_description"><p>Поле для подробного описания новости: </p></label>
-            <br>
-            <textarea name="full_description" rows="5" cols="50" id="full_description">{{old('full_description')}}</textarea>
-            <br>
-        </div>
         <button type="submit"  class="btn btn-success">Добавить</button>
-
     </form>
-
-
 @endsection
 

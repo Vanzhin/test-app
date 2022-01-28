@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\News;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
@@ -14,8 +15,10 @@ class NewsController extends Controller
      */
     public function index()
     {
+        $news = new News();
         return view('admin.news.index', [
-        'newsList' => $this->getNews(),
+        'newsList' => $news->getAll(),
+        'fields' => $news->getAllFields()
     ]);
     }
 
@@ -27,9 +30,11 @@ class NewsController extends Controller
     public function create()
     {
 
+        $news = new News();
+
         return view('admin.news.create', [
             // TODO выбрать поля без использования идентификатора новости
-            'news' => $this->getNews(1),
+            'news' => $news->getFieldsToCreate(),
         ]);
     }
 

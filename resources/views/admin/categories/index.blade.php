@@ -8,22 +8,42 @@
         <h1 class="h2">Список категорий</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
-                <a href="{{ route('admin.categories.create') }}" type="button" class="btn btn-sm btn-outline-secondary">Добавить</a>
-                <button type="button" class="btn btn-sm btn-outline-secondary">Удалить</button>
+                <a href="{{ route('admin.categories.create') }}" type="button" class="btn btn-sm btn-secondary">Добавить</a>
             </div>
         </div>
     </div>
 @endsection
 
 @section('content')
-<div>
-    @foreach ($categoryList as $category)
-    <p>Идентификатор категории: {{ $category['id'] }}</p>
-    <p>Название категории: {{ $category['title'] }}</p>
-    <p>Дата создания категории: {{ $category['created_at'] }}</p>
-    <hr>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="thead-light">
+            <tr >
+                @foreach($fields as $category)
+                    <th scope="col">{{$category}}</th>
+                @endforeach
+            </tr>
+            </thead>
+            <tbody >
+            @forelse($categoryList as $category)
+                <tr>
+                    @foreach($category as $item)
+                        <td >{{$item}}</td>
+                    @endforeach
+                    <td>
+                        <div class="d-flex">
+                            <a href="#" type="button" class="btn btn-warning">Редактировать</a>
+                            <a href="#" type="button" class="btn btn-danger">Удалить</a>
+                        </div>
 
 
-    @endforeach
-</div>
+                    </td>
+                </tr>
+            @empty
+                <p>Записей нет</p>
+            @endforelse
+
+            </tbody>
+        </table>
+    </div>
 @endsection

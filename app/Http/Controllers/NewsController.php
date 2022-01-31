@@ -9,18 +9,16 @@ class NewsController extends Controller
 {
     public function index()
     {
-        $news = new News();
+        $news = News::query()->select(News::$columnsToGet)->paginate(3);
         return view('news.index', [
-            'newsList' => $news->getAllNews(),
+            'newsList' => $news,
         ]);
     }
 
-    public function show(int $id)
+    public function show(News $news) :object
     {
-
-        $news = new News();
         return view('news.show', [
-            'news' => $news->getOneNews($id),
+            'news' => $news,
         ]);
     }
 

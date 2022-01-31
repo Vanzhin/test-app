@@ -35,22 +35,22 @@
                                 <p class="card-text"> Добавлено: {{ $news->created_at }}</p>
                                 <div class="d-flex justify-content-between align-items-center" style="flex-direction: column">
                                     <div class="btn-group">
-                                        <a href="{{ route('news.show',['id' => $news->id]) }}" type="button" class="btn btn-sm btn-outline-secondary">Подробнее</a>
+                                        <a href="{{ route('news.show',['news' => $news->id]) }}" type="button" class="btn btn-sm btn-outline-secondary">Подробнее</a>
                                     </div>
                                     <small class="text-muted">Категории</small>
 
-                                @foreach($news->category_id as $category)
+{{--                                @foreach($news->category_id as $category)--}}
 
-                                        <div class="btn-group">
+{{--                                        <div class="btn-group">--}}
 
-                                        @if(is_null($category))
-                                                <p>Без категории</p>
-                                            @else
-                                                <a href="{{ route('news.categories.show', ['category_id' => $category]) }}" type="button" class="btn btn-sm btn-outline-secondary">Все новости категории: {{ $category }}</a>
-                                            @endif
-                                        </div>
+{{--                                        @if(is_null($category))--}}
+{{--                                                <p>Без категории</p>--}}
+{{--                                            @else--}}
+{{--                                                <a href="{{ route('news.categories.show', ['category_id' => $category]) }}" type="button" class="btn btn-sm btn-outline-secondary">Все новости категории: {{ $category }}</a>--}}
+{{--                                            @endif--}}
+{{--                                        </div>--}}
 
-                                    @endforeach
+{{--                                    @endforeach--}}
                                     <small class="text-muted">9 mins</small>
                                 </div>
                             </div>
@@ -60,7 +60,10 @@
                     <h2>Записей нет</h2>
                 @endforelse
             </div>
+            {{$newsList->links()}}
+
         </div>
+
     </div>
 @endsection
 

@@ -13,25 +13,29 @@
     </div>
 @endsection
 @section('content')
-
     <div class="table-responsive">
+        @include('inc.message')
         <table class="table table-bordered table-sm table-hover">
             <thead class="thead-light">
             <tr>
                 @foreach($fields as $item)
                     <th scope="col">{{$item}}</th>
                 @endforeach
+                    <th scope="col">Действия</th>
+
             </tr>
             </thead>
             <tbody>
             @forelse($newsList as $news)
+
                 <tr>
-                    @foreach($news as $item)
-                        <td >{{$item}}</td>
+                    @foreach($fields as $item)
+                        <td >{{$news->$item}}</td>
                     @endforeach
-                    <td>
+
+                        <td>
                         <div class="d-flex">
-                            <a href="#" type="button" class="btn btn-warning">Редактировать</a>
+                            <a href="{{ route('admin.news.edit',['news' => $news]) }}" type="button" class="btn btn-warning">Редактировать</a>
                             <a href="#" type="button" class="btn btn-danger">Удалить</a>
                         </div>
                     </td>

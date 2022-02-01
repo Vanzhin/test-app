@@ -20,6 +20,13 @@ class News extends BaseModel
         'news.created_at',
 
     ];
+    protected $fillable = [
+        'title',
+        'author',
+        'slug',
+        'image',
+        'description'
+    ];
 
 
     public function getNewsByCategory(int $category_id) :object
@@ -37,7 +44,7 @@ class News extends BaseModel
     {
 
 //        TODO убрать костыль
-        $allFields = $this->getAllFields();
+        $allFields = $this->getAllFields($this->table);
         $fields = [];
         foreach ($allFields as $item){
             if($item === 'id' or $item === 'slug' or $item === 'created_at' or $item === 'updated_at'){

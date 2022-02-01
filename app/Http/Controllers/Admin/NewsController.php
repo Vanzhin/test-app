@@ -96,7 +96,19 @@ class NewsController extends Controller
      */
     public function edit(News $news)
     {
-        //
+        $categories = Category::all();
+        $newsCategories = DB::table('news_categories')
+            ->where('news_id', '=', $news->id)
+            ->get()
+            ->map(fn($item) => $item->category_id)
+            ->toArray();
+        return view('admin.news.edit', [
+            'newsFields' => $news->getFieldsToCreate(),
+            'news' => $news,
+            'categories' => $categories,
+            'newsCategories' => $newsCategories,
+        ]);
+
     }
 
     /**
@@ -108,7 +120,33 @@ class NewsController extends Controller
      */
     public function update(Request $request, News $news)
     {
-        //
+        $request->validate([
+            'title'=>[
+                'min:5',
+                'required',
+                'string'
+            ],
+            'categories'=>[
+                'required'
+            ]
+        ]);
+        $data = $request->only('title', 'author', 'status', 'description', 'image') +
+            ['slug' => Str::slug($request->input('title'))];
+        $updated = $news->fill($data)->save();
+        if($updated){
+            DB::table('news_categories')
+                ->where('news_id', '=', $news->id)
+                ->delete();
+            foreach($request->input('categories') as $category){
+                DB::table('news_categories')->insert([
+                    'news_id' =>$news->id,
+                    'category_id' => intval($category),
+                ]);
+
+            }
+            return redirect()->route('admin.news')->with('success', 'Запись обновлена');
+        }
+        return back()->with('error', 'Ошибка обновления записи')->withInput();
     }
 
     /**

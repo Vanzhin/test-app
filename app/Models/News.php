@@ -25,7 +25,8 @@ class News extends BaseModel
         'author',
         'slug',
         'image',
-        'description'
+        'description',
+        'status',
     ];
 
 

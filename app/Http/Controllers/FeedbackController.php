@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Feedback;
 use Illuminate\Http\Request;
 
 class FeedbackController extends Controller
@@ -13,7 +14,10 @@ class FeedbackController extends Controller
      */
     public function index()
     {
-        return view('feedback.index');
+        $feedbacks = Feedback::paginate(5);
+        return view('feedbacks.index', [
+            'feedbacks' => $feedbacks,
+        ]);
 
     }
 
@@ -24,7 +28,7 @@ class FeedbackController extends Controller
      */
     public function create()
     {
-        return view('feedback.create');
+        return view('feedbacks.create');
 
     }
 
@@ -36,7 +40,25 @@ class FeedbackController extends Controller
      */
     public function store(Request $request)
     {
-        return $request->all();
+        $request->validate([
+            'nickName'=>[
+                'min:5',
+                'required',
+                'string'
+            ],
+            'message'=>[
+                'required',
+                'max:500'
+            ]
+        ]);
+
+        $data = $request->only('nickName', 'message');
+        $created = Feedback::create($data);
+        if($created){
+
+            return redirect()->route('feedbacks.index')->with('success', 'Отзыв добавлен');
+        }
+        return back()->with('error', 'Ошибка добавления отзыва')->withInput();
     }
 
     /**

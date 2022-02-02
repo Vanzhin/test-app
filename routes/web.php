@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\{NewsController, Controller, CategoryController, AuthController, FeedbackController, QueryController};
 use \App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use \App\Http\Controllers\Admin\NewsController as AdminNewsController;
+use \App\Http\Controllers\Admin\FeedbackController as AdminFeedbackController;
+
 use \App\Http\Controllers\Admin\AdminController;
 /*
 |--------------------------------------------------------------------------
@@ -25,14 +27,14 @@ use \App\Http\Controllers\Admin\AdminController;
 Route::get('/', [Controller::class, 'index'])
     ->name('index');
 
-Route::get('/feedback', [FeedbackController::class, 'index'])
-    ->name('feedback.index');
-Route::get('/feedback/create', [FeedbackController::class, 'create'])
-    ->name('feedback.create');
+Route::get('/feedbacks', [FeedbackController::class, 'index'])
+    ->name('feedbacks.index');
+Route::get('/feedbacks/create', [FeedbackController::class, 'create'])
+    ->name('feedbacks.create');
 
 
 Route::resources([
-    '/feedback' => FeedbackController::class,
+    '/feedbacks' => FeedbackController::class,
     '/query' => QueryController::class,
 ]);
 
@@ -43,15 +45,29 @@ Route::get('/news', [NewsController::class, 'index'])
     ->name('news.index');
 Route::get('/categories', [CategoryController::class, 'index'])
     ->name('categories.index');
-Route::get('/news/{id}', [NewsController::class, 'show'])
-    ->where('id', '\d+')
+// биндинг модели передает конкретную модель в метод show, для этого нужно, чтобы название параметра
+// {news} совпадало с классом news
+Route::get('/news/{news}', [NewsController::class, 'show'])
+    ->where('news', '\d+')
     ->name('news.show');
 
-Route::get('/news/categories/{category_id}', [NewsController::class, 'showByCat'])
-    ->where('category_id', '\d+')
+Route::get('/news/categories/{category}', [NewsController::class, 'indexByCat'])
+    ->where('category', '\d+')
     ->name('news.categories.show');
 Route::get('/auth', [AuthController::class, 'index'])
     ->name('auth');
+Route::resource('feedbacks', AdminFeedbackController::class,
+)
+    ->names([
+        'index' => 'admin.feedbacks.index',
+        'store' => 'admin.feedbacks.store',
+        'create' => 'admin.feedbacks.create',
+        'show' => 'admin.feedbacks.show',
+        'update' => 'admin.feedbacks.update',
+        'destroy' => 'admin.feedbacks.destroy',
+        'edit' => 'admin.feedbacks.edit',
+    ])
+    ->parameters(['feedbacks' => 'feedback']);
 
 Route::group(['as' => 'admin.', 'prefix' => 'admin'], function(){
     Route::resources([
@@ -59,8 +75,15 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function(){
         '/news'=> AdminNewsController::class,
         ]
     );
+//    пришлось забивать параметры в ручную ибо по другому выходила ошибка
+    Route::resource('feedbacks', AdminFeedbackController::class,
+    )
+        ->parameters(['feedbacks' => 'feedback']);
+
     Route::get('/categories', [AdminCategoryController::class, 'index'])
         ->name('categories');
+    Route::get('/feedbacks', [AdminFeedbackController::class, 'index'])
+        ->name('feedbacks');
     Route::get('/news', [AdminNewsController::class, 'index'])
         ->name('news');
     Route::get('/news/create', [AdminNewsController::class, 'create'])

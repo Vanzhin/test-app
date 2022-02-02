@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\DB;
 class BaseModel extends Model
 {
     use HasFactory;
-    public function getAllFields() :array
+    public static function getAllFields($table) :array
     {
-        $raw = DB::select("SHOW COLUMNS FROM {$this->table}");
+        $raw = DB::select("SHOW COLUMNS FROM {$table}");
         $fields = [];
         foreach ($raw as $item){
             $fields[] = $item->Field;

@@ -1,14 +1,14 @@
 @extends('layouts.admin')
 @section('title')
-    список категорий @parent
+    список отзывов @parent
 @endsection
 
 @section('header')
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Список категорий</h1>
+        <h1 class="h2">Список отзывов</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
-                <a href="{{ route('admin.categories.create') }}" type="button" class="btn btn-sm btn-secondary">Добавить</a>
+                <a href="{{ route('admin.feedbacks.create') }}" type="button" class="btn btn-sm btn-secondary">Добавить</a>
             </div>
         </div>
     </div>
@@ -27,14 +27,14 @@
             </tr>
             </thead>
             <tbody>
-            @forelse($categoryList as $category)
+            @forelse($feedbackList as $feedback)
                 <tr>
                     @foreach($fields as $item)
-                        <td >{{$category->$item}}</td>
+                        <td >{{$feedback->$item}}</td>
                     @endforeach
                     <td>
                         <div class="d-flex">
-                            <a href="{{ route('admin.categories.edit',['category' => $category]) }}" type="button" class="btn btn-warning">Редактировать</a>
+                            <a href="{{ route('admin.feedbacks.edit',['feedback' => $feedback]) }}" type="button" class="btn btn-warning">Редактировать</a>
                             <a href="#" type="button" class="btn btn-danger">Удалить</a>
                         </div>
                     </td>
@@ -44,6 +44,6 @@
             @endforelse
             </tbody>
         </table>
-        {{$categoryList->links()}}
+        {{$feedbackList->links()}}
     </div>
 @endsection

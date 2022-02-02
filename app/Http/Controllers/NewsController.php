@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\News;
 use Illuminate\Http\Request;
 
@@ -9,28 +10,27 @@ class NewsController extends Controller
 {
     public function index()
     {
-        $news = new News();
+        $news = News::query()->select(News::$columnsToGet)->paginate(6);
         return view('news.index', [
-            'newsList' => $news->getAllNews(),
+            'newsList' => $news,
         ]);
     }
 
-    public function show(int $id)
+    public function show(News $news) :object
     {
-
-        $news = new News();
         return view('news.show', [
-            'news' => $news->getOneNews($id),
+            'news' => $news,
         ]);
     }
 
-    public function showByCat(int $id)
+    public function indexByCat(int $id)
     {
-        $news = new News();
 
+        $category = Category::find($id);
+        $news = Category::find($id)->news()->get();
         return view('news/news_by_cat', [
-            'newsList' => $news->getNewsByCategory($id),
-            'category_id' => $id
+            'newsList' => $news,
+            'category' => $category
         ]);
     }
 

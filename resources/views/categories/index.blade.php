@@ -13,29 +13,26 @@
     </section>
 @endsection
 @section('content')
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-        @forelse($categoryList as $category)
-            <div class="col">
-                <div class="card shadow-sm">
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            @forelse($categoryList as $category)
 
-                    <div class="card-body">
-                        <p class="card-text">ID: {{ $category->id }}</p>
-                        <p class="card-text"> Название категории: {{ $category->title }}</p>
-                        <p class="card-text"> Дата создания категории: {{ $category->created_at }}</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <a href="{{ route('news.categories.show', ['category_id' => $category->id] ) }}" type="button" class="btn btn-sm btn-outline-secondary">Все новости категории</a>
-                            </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $category->title }}</h5>
+                            <p class="card-text">{{ $category->description }}</p>
+                            <a href="{{ route('news.categories.show',['category' => $category]) }}" type="button" class="btn btn-sm btn-outline-secondary">Все новости категории</a>
                         </div>
-
                     </div>
-                </div>
-            </div>
         @empty
             <h2>Записей нет</h2>
-
         @endforelse
+        </div>
+            {{ $categoryList->links() }}
     </div>
+
+</div>
 
 
 @endsection

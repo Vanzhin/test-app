@@ -11,30 +11,33 @@
 @section('content')
 
     <form method="post" action="{{ route('admin.news.store') }}">
-        @if($errors->any())
-            <div class="form-group">
-                @foreach($errors->all() as $error)
-                    @component('components.alert',['type' => 'danger', 'message' => $error])
-                    @endcomponent
-                @endforeach
-            </div>
-
-        @endif
+       @include('inc.message')
     @csrf
         <div class="form-group">
-            @foreach ($news as  $item)
+            @foreach ($newsFields as  $item)
 
                 <label for="{{ $item }}"><p>Поле для : {{ $item }}</p></label>
                 @if($item === 'status')
-                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                    <select name="status" id="status" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
                         <option value="draft" selected>draft</option>
                         <option value="active">active</option>
                         <option value="blocked">blocked</option>
-
                     </select>
+                    @continue
+                @endif
+                @if($item === 'description')
+                    <textarea rows="3" cols="5" class="form-control" id="{{ $item }}" name="{{ $item }}" >{{old($item)}}</textarea>
+                    @continue
                 @endif
                 <input type="text" class="form-control" id="{{ $item }}" name="{{ $item }}" value="{{old($item)}}">
             @endforeach
+                <label for="categories"><p>Выбрать категорию(и)</p></label>
+                <select multiple name = "categories[]" id = "categories" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                @foreach($categories as $category)
+                    <option value="{{$category->id}}">{{$category->title}}</option>
+                @endforeach
+            </select>
+
         </div>
         <button type="submit"  class="btn btn-success">Добавить</button>
     </form>

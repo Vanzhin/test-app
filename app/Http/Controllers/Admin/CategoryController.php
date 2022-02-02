@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -16,10 +17,10 @@ class CategoryController extends Controller
     public function index()
     {
 
-        $categories = new Category();
+        $categories = Category::paginate(5);
         return view('admin.categories.index', [
-            'categoryList' => $categories->getAll(),
-            'fields' =>$categories->getAllFields()
+            'categoryList' => $categories,
+            'fields' =>Category::getAllFields('categories')
         ]);
     }
 
@@ -30,9 +31,9 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $categories = new Category();
+        $category = Category::$columnsToGet;
         return view('admin.categories.create', [
-            'categoryList' => $categories->getAllFields(),
+            'categoryFields' => $category,
         ]);
     }
 
@@ -44,16 +45,35 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        return $request->all();
+        $request->validate([
+            'title'=>[
+                'min:5',
+                'required',
+                'string'
+            ],
+            'description'=>[
+                'required',
+                'min:20',
+                'max:200'
+            ]
+        ]);
+
+        $data = $request->only('title', 'description');
+        $created = Category::create($data);
+        if($created){
+
+            return redirect()->route('admin.categories')->with('success', 'Запись добавлена');
+        }
+        return back()->with('error', 'Ошибка добавления записи')->withInput();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param Category $category
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Category $category)
     {
         //
     }
@@ -61,33 +81,53 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param Category $category
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Category $category)
     {
-        //
+        return view('admin.categories.edit', [
+            'categoryFields' => $category::$columnsToGet,
+            'category' => $category,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param Category $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Category $category)
     {
-        //
+        $request->validate([
+            'title'=>[
+                'min:5',
+                'required',
+                'string'
+            ],
+            'description'=>[
+                'required',
+                'min:20',
+                'max:200'
+            ]
+        ]);
+        $updated = $category->fill($request->only('title', 'description'))->save();
+
+        if($updated){
+            return redirect()->route('admin.categories')->with('success', 'Запись обновлена');
+        }
+        return back()->with('error', 'Ошибка обновления записи')->withInput();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param Category $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
         //
     }

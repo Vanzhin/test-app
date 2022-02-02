@@ -43,14 +43,14 @@ Route::get('/news', [NewsController::class, 'index'])
     ->name('news.index');
 Route::get('/categories', [CategoryController::class, 'index'])
     ->name('categories.index');
-// биндинг модели передает конкретную модель в метод show, для этого нужно, чтобы нахвание параметра
+// биндинг модели передает конкретную модель в метод show, для этого нужно, чтобы название параметра
 // {news} совпадало с классом news
 Route::get('/news/{news}', [NewsController::class, 'show'])
     ->where('news', '\d+')
     ->name('news.show');
 
-Route::get('/news/categories/{category_id}', [NewsController::class, 'showByCat'])
-    ->where('category_id', '\d+')
+Route::get('/news/categories/{category}', [NewsController::class, 'indexByCat'])
+    ->where('category', '\d+')
     ->name('news.categories.show');
 Route::get('/auth', [AuthController::class, 'index'])
     ->name('auth');

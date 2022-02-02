@@ -39,18 +39,12 @@
                                     </div>
                                     <small class="text-muted">Категории</small>
 
-{{--                                @foreach($news->category_id as $category)--}}
 
-{{--                                        <div class="btn-group">--}}
-
-{{--                                        @if(is_null($category))--}}
-{{--                                                <p>Без категории</p>--}}
-{{--                                            @else--}}
-{{--                                                <a href="{{ route('news.categories.show', ['category_id' => $category]) }}" type="button" class="btn btn-sm btn-outline-secondary">Все новости категории: {{ $category }}</a>--}}
-{{--                                            @endif--}}
-{{--                                        </div>--}}
-
-{{--                                    @endforeach--}}
+                                        @forelse($news->categories as $category)
+                                            <a href = "{{ route('news.categories.show',['category' => $category]) }}" type="button" class="btn btn-sm btn-info">{{ $category->title }}</a>
+                                        @empty
+                                            нет категории
+                                        @endforelse
                                     <small class="text-muted">9 mins</small>
                                 </div>
                             </div>

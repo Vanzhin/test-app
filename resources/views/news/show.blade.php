@@ -8,6 +8,13 @@
             <h1 class="display-4 fw-normal">{{ $news->title }}</h1>
             <p class="card-text"> Добавлено: {{ $news->created_at }}</p>
             <p class="card-text"> Автор: {{ $news->author }}</p>
+            <p class="card-text"> Из категории:
+            @forelse($news->categories as $category)
+                {{ $category->title }}
+            @empty
+                нет категории
+            @endforelse
+            </p>
             <p class="lead fw-normal">{!! $news->description !!}</p>
             <a class="btn btn-outline-secondary" href="{{ route('news.show',['news' => $news->id - 1]) }}">Предыдущая</a>
             <a class="btn btn-outline-secondary" href="{{ route('news.show',['news' => $news->id + 1]) }}">Следующая</a>

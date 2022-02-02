@@ -31,18 +31,6 @@ class News extends BaseModel
     ];
 
 
-    public function getNewsByCategory(int $category_id): object
-    {
-        $news =  DB::table($this->table)
-            ->leftJoin('news_categories', $this->table . '.id', '=', 'news_categories.news_id')
-            ->leftJoin('categories','news_categories.category_id', '=', 'categories.id')
-            ->select(News::$columnsToGet, 'categories.title as category_title',
-                'categories.id as category_id')
-            ->where('categories.id', '=', $category_id)
-            ->get();
-        return $news;
-    }
-
     public function getFieldsToCreate() :array
     {
 

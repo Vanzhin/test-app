@@ -37,14 +37,16 @@
                                     <div class="btn-group">
                                         <a href="{{ route('news.show',['news' => $news->id]) }}" type="button" class="btn btn-sm btn-outline-secondary">Подробнее</a>
                                     </div>
-                                    <small class="text-muted">Категории</small>
+                                    <small class="text-muted">Категории:</small>
 
-
+                                    <div class="list-group">
                                         @forelse($news->categories as $category)
-                                            <a href = "{{ route('news.categories.show',['category' => $category]) }}" type="button" class="btn btn-sm btn-info">{{ $category->title }}</a>
+                                            <a href = "{{ route('news.categories.show',['category' => $category]) }}" class="list-group-item list-group-item-action">{{ $category->title }}</a>
                                         @empty
-                                            нет категории
+                                            Нет категории
                                         @endforelse
+                                    </div>
+
                                     <small class="text-muted">9 mins</small>
                                 </div>
                             </div>

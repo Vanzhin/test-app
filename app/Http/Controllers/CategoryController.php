@@ -9,9 +9,11 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $category = new Category();
+        $category = Category::query()
+            ->select('id','title', 'description')
+        ->paginate(6);
         return view('categories.index', [
-            'categoryList' => $category->getAllCategories(),
+            'categoryList' => $category,
         ]);
     }
 

@@ -26,12 +26,10 @@ class NewsController extends Controller
     public function indexByCat(int $id)
     {
 
-        $news = new News();
         $category = Category::find($id);
-
+        $news = Category::find($id)->news()->get();
         return view('news/news_by_cat', [
-            'newsList' => $news
-                ->getNewsByCategory($id),
+            'newsList' => $news,
             'category' => $category
         ]);
     }

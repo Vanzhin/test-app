@@ -15,7 +15,7 @@ class FeedbackController extends Controller
     public function index()
     {
         $feedbacks = Feedback::paginate(5);
-        return view('feedback.index', [
+        return view('feedbacks.index', [
             'feedbacks' => $feedbacks,
         ]);
 
@@ -28,7 +28,7 @@ class FeedbackController extends Controller
      */
     public function create()
     {
-        return view('feedback.create');
+        return view('feedbacks.create');
 
     }
 
@@ -56,7 +56,7 @@ class FeedbackController extends Controller
         $created = Feedback::create($data);
         if($created){
 
-            return redirect()->route('feedback.index')->with('success', 'Отзыв добавлен');
+            return redirect()->route('feedbacks.index')->with('success', 'Отзыв добавлен');
         }
         return back()->with('error', 'Ошибка добавления отзыва')->withInput();
     }

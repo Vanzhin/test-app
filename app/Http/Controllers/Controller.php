@@ -21,7 +21,7 @@ class Controller extends BaseController
 
     public function feedback()
     {
-        return view('feedback');
+        return view('feedbacks');
     }
 
 }

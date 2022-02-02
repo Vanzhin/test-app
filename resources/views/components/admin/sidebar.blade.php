@@ -19,6 +19,12 @@
                     Категории
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link @if(request()->routeIs('admin.feedbacks*')) active @endif" href="{{ route('admin.feedbacks') }}">
+                    <span data-feather="users"></span>
+                    Отзывы
+                </a>
+            </li>
 
         </ul>
 

@@ -36,7 +36,7 @@
 <body class="text-center">
 
 <main class="form-signin">
-    <form method="post" action="{{ route('feedback.store') }}">
+    <form method="post" action="{{ route('feedbacks.store') }}">
         @csrf
         @include('inc.message')
 

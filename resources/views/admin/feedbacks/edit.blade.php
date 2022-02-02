@@ -1,25 +1,26 @@
 @extends('layouts.admin')
 @section('title')
-    Обновление категории @parent
+    Обновление отзыва @parent
 @endsection
 @section('header')
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Обновление категории</h1>
+        <h1 class="h2">Обновление отзыва</h1>
     </div>
 @endsection
 @section('content')
-    <form method="post" action="{{ route('admin.categories.update', ['category' => $category]) }}">
+    <form method="post" action="{{ route('admin.feedbacks.update', ['feedback' => $feedback]) }}">
         @include('inc.message')
         @csrf
         @method('put')
         <div class="form-group">
-            @foreach ($categoryFields as  $item)
+            @foreach ($feedbackFields as  $item)
+
                 <label for="{{ $item }}"><p>Поле для : {{ $item }}</p></label>
-                @if($item === 'description')
-                    <textarea rows="3" cols="5" class="form-control" id="{{ $item }}" name="{{ $item }}" >{{$category->$item}}</textarea>
+                @if($item === 'message')
+                    <textarea rows="3" cols="5" class="form-control" id="{{ $item }}" name="{{ $item }}" >{{$feedback->$item}}</textarea>
                     @continue
                 @endif
-                <input type="text" class="form-control" id="{{ $item }}" name="{{ $item }}" value="{{$category->$item}}">
+                <input type="text" class="form-control" id="{{ $item }}" name="{{ $item }}" value="{{$feedback->$item}}">
             @endforeach
         </div>
         <button type="submit"  class="btn btn-success">Обновить</button>

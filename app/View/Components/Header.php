@@ -9,7 +9,7 @@ class Header extends Component
     public static array $menu = [
         'Новости' => 'news.index',
         'Категории' => 'categories.index',
-        'Отзывы' => 'feedback.index',
+        'Отзывы' => 'feedbacks.index',
         'Запрос' => 'query.create'
 
     ];

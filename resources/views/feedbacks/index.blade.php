@@ -17,7 +17,7 @@
         @include('inc.message')
         <div class="container">
             <div class="list-group">
-                <a href="{{ route('feedback.create') }}" type="button" class="btn btn-secondary">Добавить отзыв</a>
+                <a href="{{ route('feedbacks.create') }}" type="button" class="btn btn-secondary">Добавить отзыв</a>
 
                 <ul class="list-group">
                     @forelse($feedbacks as $feedback)

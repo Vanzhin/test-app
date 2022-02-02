@@ -16,34 +16,37 @@
 
 @section('content')
     <div class="table-responsive">
-        <table class="table table-hover">
+        @include('inc.message')
+        <table class="table table-bordered table-sm table-hover">
             <thead class="thead-light">
-            <tr >
-                @foreach($fields as $category)
-                    <th scope="col">{{$category}}</th>
+            <tr>
+                @foreach($fields as $item)
+                    <th scope="col">{{$item}}</th>
                 @endforeach
+                <th scope="col">Действия</th>
+
             </tr>
             </thead>
-            <tbody >
+            <tbody>
             @forelse($categoryList as $category)
+
                 <tr>
-                    @foreach($category as $item)
-                        <td >{{$item}}</td>
+                    @foreach($fields as $item)
+                        <td >{{$category->$item}}</td>
                     @endforeach
+
                     <td>
                         <div class="d-flex">
-                            <a href="#" type="button" class="btn btn-warning">Редактировать</a>
+                            <a href="{{ route('admin.categories.edit',['category' => $category]) }}" type="button" class="btn btn-warning">Редактировать</a>
                             <a href="#" type="button" class="btn btn-danger">Удалить</a>
                         </div>
-
-
                     </td>
                 </tr>
             @empty
                 <p>Записей нет</p>
             @endforelse
-
             </tbody>
         </table>
+        {{$categoryList->links()}}
     </div>
 @endsection

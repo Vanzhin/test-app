@@ -17,6 +17,11 @@ class Category extends BaseModel
         'title',
         'description',
     ];
+    public static array $columnsToGet = [
+        'title',
+        'description',
+
+    ];
     public function news(): BelongsToMany
     {
         return $this->belongsToMany(News::class, 'news_categories',

@@ -14,13 +14,33 @@
 @endsection
 @section('content')
     <div class="album py-5 bg-light">
+        @include('inc.message')
         <div class="container">
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                пусто
+            <div class="list-group">
+                <a href="{{ route('feedback.create') }}" type="button" class="btn btn-secondary">Добавить отзыв</a>
+
+                <ul class="list-group">
+                    @forelse($feedbacks as $feedback)
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold">{{ $feedback->message }}</div>
+                            {{ $feedback->nickName }}
+                        </div>
+                        <span class="badge bg-primary rounded-pill">{{ $feedback->created_at }}</span>
+                    </li>
+                    @empty
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                Отзывов пока нет
+                            </div>
+                        </li>
+                    @endforelse
+                </ul>
+                {{$feedbacks->links()}}
+
             </div>
+
         </div>
-        <a  href="{{ route('feedback.create') }}" class="btn btn-success">Добавить</a>
-    </div>
 @endsection
 
 

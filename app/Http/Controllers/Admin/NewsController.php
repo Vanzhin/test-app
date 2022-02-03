@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class NewsController extends Controller
@@ -52,9 +53,21 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
-//        $request->validate([
-//            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-//        ]);
+        $request->validate([
+            'title'=>[
+                'min:5',
+                'required',
+                'string'
+            ],
+            'categories'=>[
+                'required'
+            ],
+            'image' => [
+                'image',
+                'max:2048'
+
+            ]
+        ]);
         //TODO сократить путь до картинки в БД
         $image = null;
         if($request->file('image')){
@@ -63,16 +76,7 @@ class NewsController extends Controller
 
         };
 
-        $request->validate([
-            'title'=>[
-            'min:5',
-            'required',
-            'string'
-            ],
-            'categories'=>[
-                'required'
-            ]
-            ]);
+
         $data = $request->only('title', 'author', 'status', 'description') +
             ['slug' => Str::slug($request->input('title'))] +
               ['image' => $image];
@@ -142,14 +146,28 @@ class NewsController extends Controller
             ],
             'categories'=>[
                 'required'
+            ],
+            'image' => [
+                'image',
+                'max:2048'
+
             ]
         ]);
         $image = null;
         if($request->file('image')){
             $image = time().'.'.$request->image->extension();
-            $request->image->move(public_path('images'), $image);
 
+//            $path = Storage::disk('images')->putFileAs('images', $request->file('image'), $image);
+            $path = $request->file('image')->storePubliclyAs(
+                'images',
+                $image,
+                'images'
+            );
+            if($path){
+                Storage::disk('images')->delete('/images/' . $news->image);
+            }
         };
+
         $data = $request->only('title', 'author', 'status', 'description') +
             ['slug' => Str::slug($request->input('title'))] +
             ['image' => $image];;

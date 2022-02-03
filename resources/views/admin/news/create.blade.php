@@ -10,7 +10,7 @@
 @endsection
 @section('content')
 
-    <form method="post" action="{{ route('admin.news.store') }}">
+    <form method="post" action="{{ route('admin.news.store') }}" enctype="multipart/form-data">
        @include('inc.message')
     @csrf
         <div class="form-group">
@@ -27,6 +27,12 @@
                 @endif
                 @if($item === 'description')
                     <textarea rows="3" cols="5" class="form-control" id="{{ $item }}" name="{{ $item }}" >{{old($item)}}</textarea>
+                    @continue
+                @endif
+                @if($item === 'image')
+                    <div class="input-group">
+                        <input type="file" class="form-control" id="{{ $item }}" name="{{ $item }}" value="{{old($item)}}" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                    </div>
                     @continue
                 @endif
                 <input type="text" class="form-control" id="{{ $item }}" name="{{ $item }}" value="{{old($item)}}">

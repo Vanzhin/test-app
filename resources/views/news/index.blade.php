@@ -20,7 +20,7 @@
                     <div class="col">
                         <div class="card shadow-sm">
                             <div class="card-img" style="position: relative">
-                                <img src="{!! $news->image !!}" class="card-img-top" alt="{{ $news->title }}">
+                                <img src="@if($news->image){!! asset('images/' . $news->image) !!}@else{!! asset('images/default.png') !!}@endif" class="card-img-top" alt="{{ $news->title }}">
                                 <strong>
                                     <p class="card-text " style="position: absolute; top: 50%;left: 15%;width: 80%; color: white; text-align: center; font-size: large">{{  $news->title }}</p>
                                 </strong>

@@ -13,6 +13,7 @@ class NewsController extends Controller
         $news = News::query()->select(News::$columnsToGet)->paginate(6);
         return view('news.index', [
             'newsList' => $news,
+
         ]);
     }
 

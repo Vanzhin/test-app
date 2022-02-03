@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\News;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
@@ -51,6 +52,17 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
+//        $request->validate([
+//            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+//        ]);
+        //TODO сократить путь до картинки в БД
+        $image = null;
+        if($request->file('image')){
+            $image = time().'.'.$request->image->extension();
+            $request->image->move(public_path('images'), $image);
+
+        };
+
         $request->validate([
             'title'=>[
             'min:5',
@@ -61,8 +73,10 @@ class NewsController extends Controller
                 'required'
             ]
             ]);
-        $data = $request->only('title', 'author', 'status', 'description', 'image') +
-        ['slug' => Str::slug($request->input('title'))];
+        $data = $request->only('title', 'author', 'status', 'description') +
+            ['slug' => Str::slug($request->input('title'))] +
+              ['image' => $image];
+
         $created = News::create($data);
         if($created){
             foreach($request->input('categories') as $category){

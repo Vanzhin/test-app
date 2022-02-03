@@ -56,18 +56,7 @@ Route::get('/news/categories/{category}', [NewsController::class, 'indexByCat'])
     ->name('news.categories.show');
 Route::get('/auth', [AuthController::class, 'index'])
     ->name('auth');
-Route::resource('feedbacks', AdminFeedbackController::class,
-)
-    ->names([
-        'index' => 'admin.feedbacks.index',
-        'store' => 'admin.feedbacks.store',
-        'create' => 'admin.feedbacks.create',
-        'show' => 'admin.feedbacks.show',
-        'update' => 'admin.feedbacks.update',
-        'destroy' => 'admin.feedbacks.destroy',
-        'edit' => 'admin.feedbacks.edit',
-    ])
-    ->parameters(['feedbacks' => 'feedback']);
+
 
 Route::group(['as' => 'admin.', 'prefix' => 'admin'], function(){
     Route::resources([

@@ -10,7 +10,8 @@ class Header extends Component
         'Новости' => 'news.index',
         'Категории' => 'categories.index',
         'Отзывы' => 'feedbacks.index',
-        'Запрос' => 'query.create'
+        'Запрос' => 'query.create',
+        'Админка' => 'admin.index',
 
     ];
     /**

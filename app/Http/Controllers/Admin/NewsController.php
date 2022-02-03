@@ -144,8 +144,15 @@ class NewsController extends Controller
                 'required'
             ]
         ]);
-        $data = $request->only('title', 'author', 'status', 'description', 'image') +
-            ['slug' => Str::slug($request->input('title'))];
+        $image = null;
+        if($request->file('image')){
+            $image = time().'.'.$request->image->extension();
+            $request->image->move(public_path('images'), $image);
+
+        };
+        $data = $request->only('title', 'author', 'status', 'description') +
+            ['slug' => Str::slug($request->input('title'))] +
+            ['image' => $image];;
         $updated = $news->fill($data)->save();
         if($updated){
             DB::table('news_categories')

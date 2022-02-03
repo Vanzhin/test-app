@@ -9,7 +9,7 @@
     </div>
 @endsection
 @section('content')
-    <form method="post" action="{{ route('admin.news.update', ['news' => $news]) }}">
+    <form method="post" action="{{ route('admin.news.update', ['news' => $news]) }}" enctype="multipart/form-data">
         @include('inc.message')
         @csrf
         @method('put')
@@ -27,6 +27,13 @@
                 @endif
                 @if($item === 'description')
                     <textarea rows="3" cols="5" class="form-control" id="{{ $item }}" name="{{ $item }}" >{{$news->$item}}</textarea>
+                    @continue
+                @endif
+                @if($item === 'image')
+                        <small class="text-muted">Текущая картинка  @if(is_null($news->$item))отсутствует @else {{$news->$item}}@endif</small>
+                    <div class="input-group">
+                        <input type="file" class="form-control" id="{{ $item }}" name="{{ $item }}"  aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                    </div>
                     @continue
                 @endif
                 <input type="text" class="form-control" id="{{ $item }}" name="{{ $item }}" value="{{$news->$item}}">

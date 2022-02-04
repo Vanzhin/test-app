@@ -39,6 +39,7 @@ class News extends BaseModel
         $allFields = $this->getAllFields($this->table);
         $fields = [];
         // создаю массив с переводом заголовков столбцов БД
+//        TODO убрать перевод в отдельный класс или сервис
         $translations = Config::get('constants.attributes');
         foreach ($allFields as $item){
             if($item === 'id' or $item === 'slug' or $item === 'created_at' or $item === 'updated_at'){

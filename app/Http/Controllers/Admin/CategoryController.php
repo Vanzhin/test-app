@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Categories\CreateRequest;
+use App\Http\Requests\Categories\UpdateRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -40,31 +42,19 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param CreateRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        $request->validate([
-            'title'=>[
-                'min:5',
-                'required',
-                'string'
-            ],
-            'description'=>[
-                'required',
-                'min:20',
-                'max:200'
-            ]
-        ]);
 
-        $data = $request->only('title', 'description');
+        $data = $request->validated();
         $created = Category::create($data);
         if($created){
 
-            return redirect()->route('admin.categories')->with('success', 'Запись добавлена');
+            return redirect()->route('admin.categories')->with('success', __('messages.admin.categories.created.success'));
         }
-        return back()->with('error', 'Ошибка добавления записи')->withInput();
+        return back()->with('error', __('messages.admin.categories.created.error'))->withInput();
     }
 
     /**
@@ -95,30 +85,18 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param UpdateRequest $request
      * @param Category $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(UpdateRequest $request, Category $category)
     {
-        $request->validate([
-            'title'=>[
-                'min:5',
-                'required',
-                'string'
-            ],
-            'description'=>[
-                'required',
-                'min:20',
-                'max:200'
-            ]
-        ]);
         $updated = $category->fill($request->only('title', 'description'))->save();
 
         if($updated){
-            return redirect()->route('admin.categories')->with('success', 'Запись обновлена');
+            return redirect()->route('admin.categories')->with('success', __('messages.admin.categories.updated.success'));
         }
-        return back()->with('error', 'Ошибка обновления записи')->withInput();
+        return back()->with('error', __('messages.admin.categories.updated.error'))->withInput();
     }
 
     /**

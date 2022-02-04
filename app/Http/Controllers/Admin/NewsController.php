@@ -55,19 +55,15 @@ class NewsController extends Controller
      */
     public function store(CreateRequest $request)
     {
-
         //TODO сократить путь до картинки в БД
         $image = null;
         if($request->file('image')){
             $image = time().'.'.$request->image->extension();
             $request->image->move(public_path('images'), $image);
-
         };
 
-
-        $data = $request->only('title', 'author', 'status', 'description') +
-            ['slug' => Str::slug($request->input('title'))] +
-              ['image' => $image];
+        $data = $request->validated() + ['slug' => Str::slug($request->input('title'))];
+        $data['image'] = $image;
 
         $created = News::create($data);
         if($created){
@@ -78,9 +74,9 @@ class NewsController extends Controller
                 ]);
 
             }
-            return redirect()->route('admin.news')->with('success', 'Запись добавлена');
+            return redirect()->route('admin.news')->with('success', __('messages.admin.news.created.success'));
         }
-        return back()->with('error', 'Ошибка добавления записи')->withInput();
+        return back()->with('error', __('messages.admin.news.created.error'))->withInput();
     }
 
     /**
@@ -126,14 +122,6 @@ class NewsController extends Controller
      */
     public function update(UpdateRequest $request, News $news)
     {
-        $request->validate([
-            'title'=>['min:5', 'required', 'string'],
-            'author' =>['min:2', 'required', 'string'],
-            'categories'=>['required'],
-            'image' => ['file', 'image', 'max:2048', 'nullable'],
-            'description' => ['min:50', 'required', 'string']
-
-        ]);
         $image = null;
         if($request->file('image')){
             $image = time().'.'.$request->image->extension();
@@ -151,9 +139,8 @@ class NewsController extends Controller
             }
         };
 
-        $data = $request->only('title', 'author', 'status', 'description') +
-            ['slug' => Str::slug($request->input('title'))] +
-            ['image' => $image];;
+        $data = $request->validated() + ['slug' => Str::slug($request->input('title'))];
+        $data['image'] = $image;
         $updated = $news->fill($data)->save();
         if($updated){
             DB::table('news_categories')
@@ -164,11 +151,10 @@ class NewsController extends Controller
                     'news_id' =>$news->id,
                     'category_id' => intval($category),
                 ]);
-
             }
-            return redirect()->route('admin.news')->with('success', 'Запись обновлена');
+            return redirect()->route('admin.news')->with('success', __('messages.admin.news.updated.success'));
         }
-        return back()->with('error', 'Ошибка обновления записи')->withInput();
+        return back()->with('error',__('messages.admin.news.updated.error'))->withInput();
     }
 
     /**

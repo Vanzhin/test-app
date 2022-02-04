@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 
 class News extends BaseModel
@@ -37,11 +38,19 @@ class News extends BaseModel
 //        TODO убрать костыль
         $allFields = $this->getAllFields($this->table);
         $fields = [];
+        // создаю массив с переводом заголовков столбцов БД
+        $translations = Config::get('constants.attributes');
         foreach ($allFields as $item){
             if($item === 'id' or $item === 'slug' or $item === 'created_at' or $item === 'updated_at'){
                 continue;
             } else{
-                $fields[] = $item;
+                if(array_key_exists($item, $translations)){
+                    $fields[$item] = $translations[$item];
+
+                }else{
+                    $fields[$item] = $item;
+
+                }
             }
         }
         return $fields;

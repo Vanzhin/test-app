@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\News\CreateRequest;
+use App\Http\Requests\News\UpdateRequest;
 use App\Models\Category;
 use App\Models\News;
 use Illuminate\Http\Request;
@@ -11,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rules\Enum;
 
 class NewsController extends Controller
 {
@@ -38,7 +41,6 @@ class NewsController extends Controller
     {
 //TODO не создавать модель
         $news = new News();
-
         return view('admin.news.create', [
             'newsFields' => $news->getFieldsToCreate(),
             'categories' => Category::all(),
@@ -48,26 +50,12 @@ class NewsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param CreateRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        $request->validate([
-            'title'=>[
-                'min:5',
-                'required',
-                'string'
-            ],
-            'categories'=>[
-                'required'
-            ],
-            'image' => [
-                'image',
-                'max:2048'
 
-            ]
-        ]);
         //TODO сократить путь до картинки в БД
         $image = null;
         if($request->file('image')){
@@ -132,26 +120,19 @@ class NewsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param UpdateRequest $request
      * @param News $news
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, News $news)
+    public function update(UpdateRequest $request, News $news)
     {
         $request->validate([
-            'title'=>[
-                'min:5',
-                'required',
-                'string'
-            ],
-            'categories'=>[
-                'required'
-            ],
-            'image' => [
-                'image',
-                'max:2048'
+            'title'=>['min:5', 'required', 'string'],
+            'author' =>['min:2', 'required', 'string'],
+            'categories'=>['required'],
+            'image' => ['file', 'image', 'max:2048', 'nullable'],
+            'description' => ['min:50', 'required', 'string']
 
-            ]
         ]);
         $image = null;
         if($request->file('image')){
@@ -163,7 +144,9 @@ class NewsController extends Controller
                 $image,
                 'images'
             );
+            // если сохранился файл, то старый удаляю
             if($path){
+                //todo костыль с путем в методе delete. нужно править в config/filesystems.php
                 Storage::disk('images')->delete('/images/' . $news->image);
             }
         };

@@ -10,13 +10,18 @@
 @endsection
 @section('content')
     <form method="post" action="{{ route('admin.news.update', ['news' => $news]) }}" enctype="multipart/form-data">
-        @include('inc.message')
         @csrf
         @method('put')
         <div class="form-group">
             @foreach ($newsFields as  $item)
 
                 <label for="{{ $item }}"><p>Поле для : {{ $item }}</p></label>
+                @error($item)
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>{{ $message }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @enderror
                 @if($item === 'status')
                     <select name="status" id="status" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
                         <option @if($news->status === 'draft') selected @endif value="draft" >draft</option>
@@ -39,12 +44,17 @@
                 <input type="text" class="form-control" id="{{ $item }}" name="{{ $item }}" value="{{$news->$item}}">
             @endforeach
             <label for="categories"><p>Выбрать категорию(и)</p></label>
+                @error('categories')
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>{{ $message }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @enderror
             <select multiple name = "categories[]" id = "categories" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
                 @foreach($categories as $category)
                     <option @if(in_array($category->id ,$newsCategories)) selected @endif value="{{$category->id}}">{{$category->title}}</option>
                 @endforeach
             </select>
-
         </div>
         <button type="submit"  class="btn btn-success">Обновить</button>
     </form>

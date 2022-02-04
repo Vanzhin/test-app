@@ -11,13 +11,19 @@
 @section('content')
 
     <form method="post" action="{{ route('admin.news.store') }}" enctype="multipart/form-data">
-       @include('inc.message')
     @csrf
         <div class="form-group">
             @foreach ($newsFields as  $item)
 
                 <label for="{{ $item }}"><p>Поле для : {{ $item }}</p></label>
-                @if($item === 'status')
+                @error($item)
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>{{ $message }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @enderror
+
+            @if($item === 'status')
                     <select name="status" id="status" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
                         <option value="draft" selected>draft</option>
                         <option value="active">active</option>
@@ -38,6 +44,12 @@
                 <input type="text" class="form-control" id="{{ $item }}" name="{{ $item }}" value="{{old($item)}}">
             @endforeach
                 <label for="categories"><p>Выбрать категорию(и)</p></label>
+                @error('categories')
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>{{ $message }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>                @enderror
+
                 <select multiple name = "categories[]" id = "categories" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
                 @foreach($categories as $category)
                     <option value="{{$category->id}}">{{$category->title}}</option>

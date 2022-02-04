@@ -35,7 +35,11 @@
                     <td>
                         <div class="d-flex">
                             <a href="{{ route('admin.categories.edit',['category' => $category]) }}" type="button" class="btn btn-warning">Редактировать</a>
-                            <a href="#" type="button" class="btn btn-danger">Удалить</a>
+                            <form method="post" action="{{ route('admin.categories.destroy', $category) }}">
+                                @csrf
+                                @method('delete')
+                                <button type="submit" class="btn btn-danger">Удалить</button>
+                            </form>
                         </div>
                     </td>
                 </tr>

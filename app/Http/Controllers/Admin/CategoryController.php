@@ -107,6 +107,11 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $deleted = $category->delete();
+        if($deleted){
+            return redirect()->route('admin.categories')->with('success', __('messages.admin.categories.deleted.success'));
+        }
+        return back()->with('error', __('messages.admin.categories.deleted.error'))->withInput();
+
     }
 }

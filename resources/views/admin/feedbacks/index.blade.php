@@ -35,7 +35,11 @@
                     <td>
                         <div class="d-flex">
                             <a href="{{ route('admin.feedbacks.edit',['feedback' => $feedback]) }}" type="button" class="btn btn-warning">Редактировать</a>
-                            <a href="#" type="button" class="btn btn-danger">Удалить</a>
+                            <form method="post" action="{{ route('admin.feedbacks.destroy', ['feedback' => $feedback]) }}">
+                                @csrf
+                                @method('delete')
+                                <button type="submit" class="btn btn-danger">Удалить</button>
+                            </form>
                         </div>
                     </td>
                 </tr>

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Feedbacks\CreateRequest;
+use App\Http\Requests\Feedbacks\UpdateRequest;
 use App\Models\Feedback;
 use Illuminate\Http\Request;
 
@@ -38,30 +40,18 @@ class FeedbackController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param CreateRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-            $request->validate([
-                'nickName'=>[
-                    'min:5',
-                    'required',
-                    'string'
-                ],
-                'message'=>[
-                    'required',
-                    'max:500'
-                ]
-            ]);
-
         $data = $request->only('nickName', 'message');
         $created = Feedback::create($data);
         if($created){
 
-            return redirect()->route('admin.feedbacks')->with('success', 'Отзыв добавлен');
+            return redirect()->route('admin.feedbacks')->with('success', __('messages.admin.feedbacks.created.success'));
         }
-        return back()->with('error', 'Ошибка добавления отзыва')->withInput();
+        return back()->with('error', __('messages.admin.feedbacks.created.error'))->withInput();
     }
 
     /**
@@ -92,30 +82,19 @@ class FeedbackController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param UpdateRequest $request
      * @param Feedback $feedback
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Feedback $feedback)
+    public function update(UpdateRequest $request, Feedback $feedback)
     {
-        $request->validate([
-            'nickName'=>[
-                'min:5',
-                'required',
-                'string'
-            ],
-            'message'=>[
-                'required',
-                'min:20',
-                'max:500'
-            ]
-        ]);
+
         $updated = $feedback->fill($request->only('nickName', 'message'))->save();
 
         if($updated){
-            return redirect()->route('admin.feedbacks')->with('success', 'Запись обновлена');
+            return redirect()->route('admin.feedbacks')->with('success', __('messages.admin.feedbacks.updated.success'));
         }
-        return back()->with('error', 'Ошибка обновления записи')->withInput();
+        return back()->with('error', __('messages.admin.feedbacks.updated.error'))->withInput();
     }
 
     /**
@@ -126,6 +105,10 @@ class FeedbackController extends Controller
      */
     public function destroy(Feedback $feedback)
     {
-        //
+        $deleted = $feedback->delete();
+        if($deleted){
+            return redirect()->route('admin.feedbacks')->with('success', __('messages.admin.feedbacks.deleted.success'));
+        }
+        return back()->with('error', __('messages.admin.feedbacks.deleted.error'))->withInput();
     }
 }

@@ -36,7 +36,11 @@
                         <td>
                         <div class="d-flex">
                             <a href="{{ route('admin.news.edit',['news' => $news]) }}" type="button" class="btn btn-warning">Редактировать</a>
-                            <a href="#" type="button" class="btn btn-danger">Удалить</a>
+                            <form method="post" action="{{ route('admin.news.destroy', ['news' => $news]) }}">
+                                @csrf
+                                @method('delete')
+                                <button type="submit" class="btn btn-danger">Удалить</button>
+                            </form>
                         </div>
                     </td>
                 </tr>

@@ -165,6 +165,13 @@ class NewsController extends Controller
      */
     public function destroy(News $news)
     {
-        //
+        $deleted = $news->delete();
+        if($deleted){
+            DB::table('news_categories')
+                ->where('news_id', '=', $news->id)
+                ->delete();
+            return redirect()->route('admin.news')->with('success', __('messages.admin.news.deleted.success'));
+        }
+        return back()->with('error', __('messages.admin.news.deleted.error'))->withInput();
     }
 }

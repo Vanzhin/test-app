@@ -3,12 +3,17 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\News\CreateRequest;
+use App\Http\Requests\News\UpdateRequest;
 use App\Models\Category;
 use App\Models\News;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rules\Enum;
 
 class NewsController extends Controller
 {
@@ -36,7 +41,6 @@ class NewsController extends Controller
     {
 //TODO не создавать модель
         $news = new News();
-
         return view('admin.news.create', [
             'newsFields' => $news->getFieldsToCreate(),
             'categories' => Category::all(),
@@ -46,23 +50,21 @@ class NewsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param CreateRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        $request->validate([
-            'title'=>[
-            'min:5',
-            'required',
-            'string'
-            ],
-            'categories'=>[
-                'required'
-            ]
-            ]);
-        $data = $request->only('title', 'author', 'status', 'description', 'image') +
-        ['slug' => Str::slug($request->input('title'))];
+        //TODO сократить путь до картинки в БД
+        $image = null;
+        if($request->file('image')){
+            $image = time().'.'.$request->image->extension();
+            $request->image->move(public_path('images'), $image);
+        };
+
+        $data = $request->validated() + ['slug' => Str::slug($request->input('title'))];
+        $data['image'] = $image;
+
         $created = News::create($data);
         if($created){
             foreach($request->input('categories') as $category){
@@ -72,9 +74,9 @@ class NewsController extends Controller
                 ]);
 
             }
-            return redirect()->route('admin.news')->with('success', 'Запись добавлена');
+            return redirect()->route('admin.news')->with('success', __('messages.admin.news.created.success'));
         }
-        return back()->with('error', 'Ошибка добавления записи')->withInput();
+        return back()->with('error', __('messages.admin.news.created.error'))->withInput();
     }
 
     /**
@@ -114,24 +116,31 @@ class NewsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param UpdateRequest $request
      * @param News $news
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, News $news)
+    public function update(UpdateRequest $request, News $news)
     {
-        $request->validate([
-            'title'=>[
-                'min:5',
-                'required',
-                'string'
-            ],
-            'categories'=>[
-                'required'
-            ]
-        ]);
-        $data = $request->only('title', 'author', 'status', 'description', 'image') +
-            ['slug' => Str::slug($request->input('title'))];
+        $image = null;
+        if($request->file('image')){
+            $image = time().'.'.$request->image->extension();
+
+//            $path = Storage::disk('images')->putFileAs('images', $request->file('image'), $image);
+            $path = $request->file('image')->storePubliclyAs(
+                'images',
+                $image,
+                'images'
+            );
+            // если сохранился файл, то старый удаляю
+            if($path){
+                //todo костыль с путем в методе delete. нужно править в config/filesystems.php
+                Storage::disk('images')->delete('/images/' . $news->image);
+            }
+        };
+
+        $data = $request->validated() + ['slug' => Str::slug($request->input('title'))];
+        $data['image'] = $image;
         $updated = $news->fill($data)->save();
         if($updated){
             DB::table('news_categories')
@@ -142,11 +151,10 @@ class NewsController extends Controller
                     'news_id' =>$news->id,
                     'category_id' => intval($category),
                 ]);
-
             }
-            return redirect()->route('admin.news')->with('success', 'Запись обновлена');
+            return redirect()->route('admin.news')->with('success', __('messages.admin.news.updated.success'));
         }
-        return back()->with('error', 'Ошибка обновления записи')->withInput();
+        return back()->with('error',__('messages.admin.news.updated.error'))->withInput();
     }
 
     /**
@@ -157,6 +165,13 @@ class NewsController extends Controller
      */
     public function destroy(News $news)
     {
-        //
+        $deleted = $news->delete();
+        if($deleted){
+            DB::table('news_categories')
+                ->where('news_id', '=', $news->id)
+                ->delete();
+            return redirect()->route('admin.news')->with('success', __('messages.admin.news.deleted.success'));
+        }
+        return back()->with('error', __('messages.admin.news.deleted.error'))->withInput();
     }
 }

@@ -14,11 +14,15 @@
 
 @section('content')
     <form method="post" action="{{ route('admin.categories.store') }}">
-        @include('inc.message')
         @csrf
         <div class="form-group">
             @foreach ($categoryFields as  $item)
-
+                @error($item)
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>{{ $message }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @enderror
                 <label for="{{ $item }}"><p>Поле для : {{ $item }}</p></label>
                 @if($item === 'description')
                     <textarea rows="3" cols="5" class="form-control" id="{{ $item }}" name="{{ $item }}" >{{old($item)}}</textarea>

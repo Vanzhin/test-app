@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-use \App\Http\Controllers\{NewsController, Controller, CategoryController, AuthController, FeedbackController, QueryController};
+use \App\Http\Controllers\{NewsController, Controller, CategoryController, FeedbackController, QueryController, HomeController};
 use \App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use \App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use \App\Http\Controllers\Admin\FeedbackController as AdminFeedbackController;
@@ -18,10 +18,6 @@ use \App\Http\Controllers\Admin\AdminController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-//Route::get('/', function () {
-//    return view('welcome');
-//});
 
 
 Route::get('/', [Controller::class, 'index'])
@@ -54,8 +50,7 @@ Route::get('/news/{news}', [NewsController::class, 'show'])
 Route::get('/news/categories/{category}', [NewsController::class, 'indexByCat'])
     ->where('category', '\d+')
     ->name('news.categories.show');
-Route::get('/auth', [AuthController::class, 'index'])
-    ->name('auth');
+
 
 
 Route::group(['as' => 'admin.', 'prefix' => 'admin'], function(){
@@ -83,3 +78,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function(){
 
 
 
+
+Auth::routes();
+
+Route::get('/home', [HomeController::class, 'index'])->name('home');

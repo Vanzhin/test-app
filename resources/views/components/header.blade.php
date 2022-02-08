@@ -16,8 +16,8 @@
                 <input class="form-control" type="text" placeholder="Search" aria-label="Search">
             </form>
             <div class="text-end">
-                <a href="{{ route('auth') }}"  type="button" class="btn btn-outline-light me-2">Login</a>
-                <a type="button" class="btn btn-warning">Sign-up</a>
+                <a href="{{ route('login') }}"  type="button" class="btn btn-outline-light me-2">Вход</a>
+                <a href="{{ route('register') }}" class="btn btn-warning">Регистрация</a>
             </div>
         </div>
     </div>

@@ -6,6 +6,7 @@ use \App\Http\Controllers\{NewsController, Controller, CategoryController, Feedb
 use \App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use \App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use \App\Http\Controllers\Admin\FeedbackController as AdminFeedbackController;
+use \App\Http\Controllers\Account\IndexController as AccountController;
 
 use \App\Http\Controllers\Admin\AdminController;
 /*
@@ -51,9 +52,17 @@ Route::get('/news/categories/{category}', [NewsController::class, 'indexByCat'])
     ->where('category', '\d+')
     ->name('news.categories.show');
 
+Route::group(['middleware' => 'auth'], function (){
 
+Route::get('/account', AccountController::class)
+->name('account');
+Route::get('/logout', function (){
+    \Auth::logout();
+    return redirect()->route('login');
 
-Route::group(['as' => 'admin.', 'prefix' => 'admin'], function(){
+})->name('account.logout');
+
+Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'admin'], function(){
     Route::resources([
         '/categories' => AdminCategoryController::class,
         '/news'=> AdminNewsController::class,
@@ -75,10 +84,11 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function(){
     Route::get('/', [AdminController::class, 'index'])
         ->name('index');
 });
+});
 
 
 
 
-Auth::routes();
+\Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');

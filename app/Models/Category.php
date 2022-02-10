@@ -29,6 +29,4 @@ class Category extends BaseModel
             'id', 'id'
         );
     }
-
-
 }

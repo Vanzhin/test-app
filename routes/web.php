@@ -2,11 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 
-use \App\Http\Controllers\{NewsController, Controller, CategoryController, AuthController, FeedbackController, QueryController};
+use \App\Http\Controllers\{NewsController, Controller, CategoryController, FeedbackController, QueryController, HomeController};
 use \App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use \App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use \App\Http\Controllers\Admin\FeedbackController as AdminFeedbackController;
-
+use \App\Http\Controllers\Account\IndexController as AccountController;
+use \App\Http\Controllers\Admin\UserController as AdminUserController;
 use \App\Http\Controllers\Admin\AdminController;
 /*
 |--------------------------------------------------------------------------
@@ -18,10 +19,6 @@ use \App\Http\Controllers\Admin\AdminController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-//Route::get('/', function () {
-//    return view('welcome');
-//});
 
 
 Route::get('/', [Controller::class, 'index'])
@@ -54,19 +51,24 @@ Route::get('/news/{news}', [NewsController::class, 'show'])
 Route::get('/news/categories/{category}', [NewsController::class, 'indexByCat'])
     ->where('category', '\d+')
     ->name('news.categories.show');
-Route::get('/auth', [AuthController::class, 'index'])
-    ->name('auth');
 
+Route::group(['middleware' => 'auth'], function (){
 
-Route::group(['as' => 'admin.', 'prefix' => 'admin'], function(){
-    Route::resources([
+    Route::get('/account', AccountController::class)
+    ->name('account');
+        Route::get('/logout', function (){
+        \Auth::logout();
+        return redirect()->route('login');
+        })->name('account.logout');
+
+    Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'admin'], function(){
+        Route::resources([
         '/categories' => AdminCategoryController::class,
         '/news'=> AdminNewsController::class,
-        ]
-    );
+        '/users' => AdminUserController::class,
+        ]);
 //    пришлось забивать параметры в ручную ибо по другому выходила ошибка
-    Route::resource('feedbacks', AdminFeedbackController::class,
-    )
+        Route::resource('feedbacks', AdminFeedbackController::class,)
         ->parameters(['feedbacks' => 'feedback']);
 
     Route::get('/categories', [AdminCategoryController::class, 'index'])
@@ -75,11 +77,16 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function(){
         ->name('feedbacks');
     Route::get('/news', [AdminNewsController::class, 'index'])
         ->name('news');
+    Route::get('/users', [AdminUserController::class, 'index'])
+        ->name('users');
     Route::get('/news/create', [AdminNewsController::class, 'create'])
     ->name('news.create');
     Route::get('/', [AdminController::class, 'index'])
         ->name('index');
 });
+});
 
 
+\Auth::routes();
 
+Route::get('/home', [HomeController::class, 'index'])->name('home');

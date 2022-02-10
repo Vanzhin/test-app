@@ -20,6 +20,7 @@ class BaseModel extends Model
 //         TODO не работает нормально, выдает поля отсортированные по алфавиту
 //            Schema::getColumnListing($this->table);
     }
+
     public function getAll() :object
     {
         return DB::table($this->table)

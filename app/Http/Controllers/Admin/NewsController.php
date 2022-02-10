@@ -67,13 +67,14 @@ class NewsController extends Controller
 
         $created = News::create($data);
         if($created){
-            foreach($request->input('categories') as $category){
-                DB::table('news_categories')->insert([
-                    'news_id' =>$created->id,
-                    'category_id' => intval($category),
-                ]);
-
-            }
+//            foreach($request->input('categories') as $category){
+//                DB::table('news_categories')->insert([
+//                    'news_id' =>$created->id,
+//                    'category_id' => intval($category),
+//                ]);
+//
+//            }
+            $created->categories()->attach($request->input('categories'));
             return redirect()->route('admin.news')->with('success', __('messages.admin.news.created.success'));
         }
         return back()->with('error', __('messages.admin.news.created.error'))->withInput();
@@ -143,15 +144,21 @@ class NewsController extends Controller
         $data['image'] = $image;
         $updated = $news->fill($data)->save();
         if($updated){
-            DB::table('news_categories')
-                ->where('news_id', '=', $news->id)
-                ->delete();
-            foreach($request->input('categories') as $category){
-                DB::table('news_categories')->insert([
-                    'news_id' =>$news->id,
-                    'category_id' => intval($category),
-                ]);
-            }
+//            DB::table('news_categories')
+//                ->where('news_id', '=', $news->id)
+//                ->delete();
+//            foreach($request->input('categories') as $category){
+//                DB::table('news_categories')->insert([
+//                    'news_id' =>$news->id,
+//                    'category_id' => intval($category),
+//                ]);
+//            }
+
+            $news->categories()->detach();
+            $news->categories()->attach($request->input('categories'));
+
+
+
             return redirect()->route('admin.news')->with('success', __('messages.admin.news.updated.success'));
         }
         return back()->with('error',__('messages.admin.news.updated.error'))->withInput();

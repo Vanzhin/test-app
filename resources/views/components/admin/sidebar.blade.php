@@ -21,11 +21,16 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link @if(request()->routeIs('admin.feedbacks*')) active @endif" href="{{ route('admin.feedbacks') }}">
-                    <span data-feather="users"></span>
+                    <span data-feather="file-text"></span>
                     Отзывы
                 </a>
             </li>
-
+            <li class="nav-item">
+                <a class="nav-link @if(request()->routeIs('admin.users*')) active @endif" href="{{ route('admin.users') }}">
+                    <span data-feather="users"></span>
+                    Пользователи
+                </a>
+            </li>
         </ul>
 
     </div>

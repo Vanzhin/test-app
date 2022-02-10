@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -42,4 +43,27 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'ia_admin' => 'boolean',
     ];
+
+
+    public static array $columnsToGet = [
+        'name',
+        'email',
+        'password',
+        'is_admin',
+
+    ];
+
+    public static function getIndexFields() :array
+    {
+        $raw = DB::select("SHOW COLUMNS FROM users");
+        $fields = [];
+        foreach ($raw as $item){
+            if ($item->Field === 'password' or $item->Field === 'remember_token'){
+                continue;
+            } else{
+                $fields[] = $item->Field;
+            }
+        }
+        return $fields;
+    }
 }

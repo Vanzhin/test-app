@@ -56,7 +56,6 @@
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Войти') }}
                                 </button>
-
                                 @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">
                                         {{ __('Забыли пароль?') }}
@@ -65,6 +64,9 @@
                             </div>
                         </div>
                     </form>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <a href="{{ route('auth.redirect', ['network' =>'vkontakte']) }}" class="btn btn-secondary">Войти через VK</a>
+                    </div>
                 </div>
             </div>
         </div>

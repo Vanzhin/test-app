@@ -26,6 +26,7 @@ class ParserService implements Parser
      */
     public function parse(): array
     {
+        dd($this->document->getContent());
         return
             $this->document->parse([
             'title' =>[

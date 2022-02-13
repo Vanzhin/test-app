@@ -6,16 +6,16 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Регистрация') }}</div>
-
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
+                        <input id="avatar" type="text" class="form-control" name="avatar" value="@if(session()->has('socialUser.avatar')){{ session()->get('socialUser.avatar') }}@endif" autocomplete="avatar" autofocus hidden>
 
                         <div class="row mb-3">
                             <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Имя') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="@if(session()->has('socialUser.name')){{ session()->get('socialUser.name') }}@else{{ old('name') }}@endif" required autocomplete="name" autofocus>
 
                                 @error('name')
                                     <span class="invalid-feedback" role="alert">
@@ -24,12 +24,11 @@
                                 @enderror
                             </div>
                         </div>
-
                         <div class="row mb-3">
                             <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email адрес') }}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="@if(session()->has('socialUser.name')){{ session()->get('socialUser.email') }}@else{{ old('email') }}@endif" required autocomplete="email">
 
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
@@ -38,7 +37,6 @@
                                 @enderror
                             </div>
                         </div>
-
                         <div class="row mb-3">
                             <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Пароль') }}</label>
 
@@ -75,3 +73,6 @@
     </div>
 </div>
 @endsection
+@php
+session()->pull('socialUser');
+@endphp

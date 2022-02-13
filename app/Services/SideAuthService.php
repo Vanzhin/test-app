@@ -22,7 +22,8 @@ class SideAuthService implements SideAuth
            };
 
        }else{
-           return redirect('register')->with('error', __('Ошибка авторизации через ' . $network));
+           dd($socialUser);
+           return route('register');
        }
         return back()->with('error', __('Ошибка авторизации через ' . $network));
     }

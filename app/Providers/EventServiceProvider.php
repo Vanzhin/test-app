@@ -10,6 +10,7 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 use Illuminate\Support\Facades\Event;
 use SocialiteProviders\Manager\SocialiteWasCalled;
 use SocialiteProviders\VKontakte\VKontakteExtendSocialite;
+use SocialiteProviders\GitHub\GitHubExtendSocialite;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -26,8 +27,9 @@ class EventServiceProvider extends ServiceProvider
             LastLoginUpdateListener::class,
         ],
         SocialiteWasCalled::class => [
-            'SocialiteProviders\VKontakte\VKontakteExtendSocialite@handle',
-        ]
+            VKontakteExtendSocialite::class.'@handle',
+            GitHubExtendSocialite::class.'@handle',
+        ],
     ];
 
     /**

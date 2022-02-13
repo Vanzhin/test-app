@@ -64,8 +64,9 @@
                             </div>
                         </div>
                     </form>
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                        <a href="{{ route('auth.redirect', ['network' =>'vkontakte']) }}" class="btn btn-secondary">Войти через VK</a>
+                    <div class="btn-group" role="group" aria-label="Basic example" style="padding: 10px 0px 0px 10px;">
+                        <a href="{{ route('auth.redirect', ['network' =>'vkontakte']) }}" class="btn btn-sm btn-secondary">Войти через VK</a>
+                        <a href="{{ route('auth.redirect', ['network' =>'github']) }}" class="btn btn-sm btn-secondary">Войти через Github</a>
                     </div>
                 </div>
             </div>

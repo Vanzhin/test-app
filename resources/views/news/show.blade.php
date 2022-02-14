@@ -2,6 +2,7 @@
 @section('title')
     @parent {{ $news->title }}
 @endsection
+
 @section('content')
     <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
         <div class="col-md-5 p-lg-5 mx-auto my-5">
@@ -16,6 +17,7 @@
             @endforelse
             </p>
             <p class="lead fw-normal">{!! $news->description !!}</p>
+{{--            TODO не работает правильно, т.к. id новости может быть не по порядку--}}
             <a class="btn btn-outline-secondary" href="{{ route('news.show',['news' => $news->id - 1]) }}">Предыдущая</a>
             <a class="btn btn-outline-secondary" href="{{ route('news.show',['news' => $news->id + 1]) }}">Следующая</a>
         </div>

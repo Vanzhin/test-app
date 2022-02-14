@@ -9,6 +9,8 @@ use \App\Http\Controllers\Admin\FeedbackController as AdminFeedbackController;
 use \App\Http\Controllers\Account\IndexController as AccountController;
 use \App\Http\Controllers\Admin\UserController as AdminUserController;
 use \App\Http\Controllers\Admin\AdminController;
+use \App\Http\Controllers\Admin\ParserController;
+use \App\Http\Controllers\SideAuthController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -70,7 +72,8 @@ Route::group(['middleware' => 'auth'], function (){
 //    пришлось забивать параметры в ручную ибо по другому выходила ошибка
         Route::resource('feedbacks', AdminFeedbackController::class,)
         ->parameters(['feedbacks' => 'feedback']);
-
+    Route::get('/parser', ParserController::class)
+        ->name('parser');
     Route::get('/categories', [AdminCategoryController::class, 'index'])
         ->name('categories');
     Route::get('/feedbacks', [AdminFeedbackController::class, 'index'])
@@ -90,3 +93,13 @@ Route::group(['middleware' => 'auth'], function (){
 \Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+//Social
+Route::group(['middleware' => 'guest'], function(){
+    Route::get('/auth/{network}/redirect', [SideAuthController::class, 'redirect'])
+    ->name('auth.redirect');
+    Route::get('/auth/{network}/callback', [SideAuthController::class, 'callback'])
+    ->name('auth.callback');
+}
+
+);

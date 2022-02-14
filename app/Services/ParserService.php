@@ -3,8 +3,11 @@
 namespace App\Services;
 
 use App\Contracts\Parser;
+use App\Models\Category;
+use App\Models\News;
+use Illuminate\Support\Str;
 use \Laravie\Parser\Document;
-use Orchestra\Parser\Xml\Facade as XMLParser;
+use Orchestra\Parser\Xml\Facade as XmlParser;
 
 class ParserService implements Parser
 {
@@ -17,7 +20,7 @@ class ParserService implements Parser
      */
     public function setLink(string $link): Parser
     {
-        $this->document = XMLParser::load($link);
+        $this->document = XmlParser::load($link);
         return $this;
     }
 
@@ -26,7 +29,6 @@ class ParserService implements Parser
      */
     public function parse(): array
     {
-        dd($this->document->getContent());
         return
             $this->document->parse([
             'title' =>[
@@ -42,9 +44,36 @@ class ParserService implements Parser
                 'uses' => 'channel.image.url'
             ],
             'news' =>[
-                'uses' => 'channel.item[title, link, guid, description, pubDate]'
+                'uses' => 'channel.item[title,link,guid,description,pubDate,image]'
             ],
-
         ]);
+    }
+
+    public function saveToDb($links)
+    {
+        foreach ($links as $link){
+            $data= $this->setLink($link)->parse();
+            foreach ($data['news'] as $news){
+                $parsed = News::query()->firstOrCreate([
+                    'title' => $news['title'],
+                    'slug' => Str::slug($news['title']),
+                    'author' => $data['title'],
+                    'status' => 'draft',
+                    'description' => $news['description'],
+                    'image' => $news['image'],
+
+                ]);
+                if ($parsed){
+                    $category = Category::query()->firstOrCreate([
+                        'title' => $data['title'],
+                        'description' => $data['description'],
+                    ]);
+                    $parsed->categories()->attach($category->id);
+                    return true;
+                } else{
+                    return false;
+                }
+            }
+        }
     }
 }

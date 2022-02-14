@@ -72,7 +72,7 @@ Route::group(['middleware' => 'auth'], function (){
 //    пришлось забивать параметры в ручную ибо по другому выходила ошибка
         Route::resource('feedbacks', AdminFeedbackController::class,)
         ->parameters(['feedbacks' => 'feedback']);
-    Route::get('parser', ParserController::class)
+    Route::get('/parser', ParserController::class)
         ->name('parser');
     Route::get('/categories', [AdminCategoryController::class, 'index'])
         ->name('categories');

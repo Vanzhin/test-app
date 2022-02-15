@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class News extends BaseModel
 {
-    use HasFactory;
+    use HasFactory, Sluggable;
 
     protected  $table = 'news';
     public static array $columnsToGet = [
@@ -65,4 +66,12 @@ class News extends BaseModel
         );
     }
 
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'title'
+            ]
+        ];
+    }
 }

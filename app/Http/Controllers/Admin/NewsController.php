@@ -62,10 +62,11 @@ class NewsController extends Controller
             $request->image->move(public_path('images'), $image);
         };
 
-        $data = $request->validated() + ['slug' => Str::slug($request->input('title'))];
+        $data = $request->validated();
         $data['image'] = $image;
 
         $created = News::create($data);
+        //slug генерируется за счет трейта Sluggable в модели News
         if($created){
 //            foreach($request->input('categories') as $category){
 //                DB::table('news_categories')->insert([
@@ -140,8 +141,9 @@ class NewsController extends Controller
             }
         };
 
-        $data = $request->validated() + ['slug' => Str::slug($request->input('title'))];
+        $data = $request->validated();
         $data['image'] = $image;
+        $news->slug = null;
         $updated = $news->fill($data)->save();
         if($updated){
 //            DB::table('news_categories')

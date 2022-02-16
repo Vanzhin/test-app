@@ -17,12 +17,14 @@ class UploadService
         }
         return $status;
     }
-    public function deleteImage(string $path): string
+
+    /**
+     * @param string|null $path
+     * @return bool
+     */
+    public function deleteImage(?string $path): bool
     {
-        $status = Storage::disk('public')->delete($path);
-        if (!$status){
-            throw new Exception('старое изображение не удалено');
-        }
-        return $status;
+            return Storage::disk('public')->delete($path);
+
     }
 }

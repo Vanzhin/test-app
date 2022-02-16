@@ -165,6 +165,7 @@ class NewsController extends Controller
     {
         $deleted = $news->delete();
         if($deleted){
+            app(UploadService::class)->deleteImage($news->image);
             return redirect()->route('admin.news')->with('success', __('messages.admin.news.deleted.success'));
         }
         return back()->with('error', __('messages.admin.news.deleted.error'))->withInput();

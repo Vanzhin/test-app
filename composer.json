@@ -10,6 +10,7 @@
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.75",
+        "laravel/helpers": "^1.5",
         "laravel/sanctum": "^2.11",
         "laravel/socialite": "^5.5",
         "laravel/tinker": "^2.5",
@@ -17,7 +18,8 @@
         "orchestra/parser": "^6.1",
         "socialiteproviders/github": "^4.1",
         "socialiteproviders/twitter": "^4.1",
-        "socialiteproviders/vkontakte": "^4.2"
+        "socialiteproviders/vkontakte": "^4.2",
+        "unisharp/laravel-filemanager": "^2.3"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",

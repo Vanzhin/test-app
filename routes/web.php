@@ -11,6 +11,7 @@ use \App\Http\Controllers\Admin\UserController as AdminUserController;
 use \App\Http\Controllers\Admin\AdminController;
 use \App\Http\Controllers\Admin\ParserController;
 use \App\Http\Controllers\SideAuthController;
+use \UniSharp\LaravelFilemanager\Lfm;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,7 +22,9 @@ use \App\Http\Controllers\SideAuthController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth', 'admin']], routes: function () {
+    Lfm::routes();
+});
 
 Route::get('/', [Controller::class, 'index'])
     ->name('index');

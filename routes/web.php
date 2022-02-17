@@ -12,6 +12,7 @@ use \App\Http\Controllers\Admin\AdminController;
 use \App\Http\Controllers\Admin\ParserController;
 use \App\Http\Controllers\SideAuthController;
 use \UniSharp\LaravelFilemanager\Lfm;
+use \App\Http\Controllers\Admin\ResourceController as AdminResourceController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -71,6 +72,8 @@ Route::group(['middleware' => 'auth'], function (){
         '/categories' => AdminCategoryController::class,
         '/news'=> AdminNewsController::class,
         '/users' => AdminUserController::class,
+        '/resources' => AdminResourceController::class,
+
         ]);
 //    пришлось забивать параметры в ручную ибо по другому выходила ошибка
         Route::resource('feedbacks', AdminFeedbackController::class,)

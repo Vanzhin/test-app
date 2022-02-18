@@ -65,13 +65,7 @@ class NewsController extends Controller
         $created = News::create($data);
         //slug генерируется за счет трейта Sluggable в модели News
         if($created){
-//            foreach($request->input('categories') as $category){
-//                DB::table('news_categories')->insert([
-//                    'news_id' =>$created->id,
-//                    'category_id' => intval($category),
-//                ]);
-//
-//            }
+
             $created->categories()->attach($request->input('categories'));
             return redirect()->route('admin.news')->with('success', __('messages.admin.news.created.success'));
         }
@@ -135,20 +129,9 @@ class NewsController extends Controller
         $news->slug = null;
         $updated = $news->fill($data)->save();
         if($updated){
-//            DB::table('news_categories')
-//                ->where('news_id', '=', $news->id)
-//                ->delete();
-//            foreach($request->input('categories') as $category){
-//                DB::table('news_categories')->insert([
-//                    'news_id' =>$news->id,
-//                    'category_id' => intval($category),
-//                ]);
-//            }
 
             $news->categories()->detach();
             $news->categories()->attach($request->input('categories'));
-
-
 
             return redirect()->route('admin.news')->with('success', __('messages.admin.news.updated.success'));
         }

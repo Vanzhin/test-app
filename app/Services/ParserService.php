@@ -52,15 +52,10 @@ class ParserService implements Parser
         ]);
 
         return $data;
-//        $encode = json_encode($data);
-//        $explode = explode('/', $this->link);
-//        $parseLink = end($explode);
-//        Storage::disk('public')->append('parsing/'. $parseLink, $encode);
     }
 
     public function saveToDb($data)
     {
-
             foreach ($data['news'] as $news){
                 $parsed = News::query()->firstOrCreate([
                     'title' => $news['title'],

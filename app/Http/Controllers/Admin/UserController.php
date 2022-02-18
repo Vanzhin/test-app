@@ -112,7 +112,6 @@ class UserController extends Controller
         $updated = $user->fill([
             'name' => $data['name'],
             'email' => $data['email'],
-//            'password' => Hash::make($data['password']),
             'is_admin' => $is_admin,
         ])->save();
 

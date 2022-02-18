@@ -21,19 +21,13 @@ class ParserController extends Controller
     public function __invoke(Request $request)
     {
         $links = Resource::all()->toArray();
-//        $links = [
-//            'https://news.yandex.ru/auto.rss',
-//            'https://news.yandex.ru/auto_racing.rss',
-//
-//        ];
+
         foreach ($links as $link){
             if ($link['is_active']){
                dispatch(new NewsParsingJob($link['url']));
             }
-
         }
 
         return redirect()->route('admin.news')->with('success', __('messages.admin.news.parsed.success',));
-
     }
 }

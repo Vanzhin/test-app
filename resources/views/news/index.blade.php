@@ -59,7 +59,6 @@
             {{$newsList->links()}}
 
         </div>
-
     </div>
 @endsection
 

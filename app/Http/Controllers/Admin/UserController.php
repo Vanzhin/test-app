@@ -103,7 +103,6 @@ class UserController extends Controller
     public function update(UpdateRequest $request, User $user)
     {
         $data = $request->validated();
-
         if(key_exists('is_admin', $data)){
             $is_admin = 1;
         } else{

@@ -3,9 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class Resource extends Model
+class Resource extends BaseModel
 {
     use HasFactory;
     protected $table = 'resources';
@@ -13,10 +12,12 @@ class Resource extends Model
     protected $fillable = [
         'url',
         'description',
+        'is_active'
     ];
     public static array $columnsToGet = [
         'url',
         'description',
+        'is_active'
 
     ];
 }

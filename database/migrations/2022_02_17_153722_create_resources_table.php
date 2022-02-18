@@ -17,6 +17,7 @@ class CreateResourcesTable extends Migration
             $table->id();
             $table->string('url',250);
             $table->string('description',250)->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

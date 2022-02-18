@@ -32,6 +32,8 @@ class NewsSeeder extends Seeder
                 'slug' => Str::slug($title),
                 'author' => $faker->firstName() . " " . $faker->lastName(),
                 'description' => $faker->sentence(),
+                'created_at' =>now('Asia/Yekaterinburg')
+
 
 
             ];

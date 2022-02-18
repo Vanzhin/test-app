@@ -80,6 +80,8 @@ Route::group(['middleware' => 'auth'], function (){
         ->parameters(['feedbacks' => 'feedback']);
     Route::get('/parser', ParserController::class)
         ->name('parser');
+    Route::get('/resources', [AdminResourceController::class, 'index'])
+        ->name('resources');
     Route::get('/categories', [AdminCategoryController::class, 'index'])
         ->name('categories');
     Route::get('/feedbacks', [AdminFeedbackController::class, 'index'])

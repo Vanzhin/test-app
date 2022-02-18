@@ -34,10 +34,15 @@
             <li class="nav-item">
                 <a class="nav-link @if(request()->routeIs('admin.parser*')) active @endif" href="{{ route('admin.parser') }}">
                     <span data-feather="file"></span>
-                    Обновить новости
+                    Обновить источники
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link @if(request()->routeIs('admin.resources*')) active @endif" href="{{ route('admin.resources') }}">
+                    <span data-feather="file"></span>
+                    Источники
                 </a>
             </li>
         </ul>
-
     </div>
 </nav>

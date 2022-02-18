@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Resources\CreateRequest;
+use App\Http\Requests\Resources\UpdateRequest;
+use App\Models\Resource;
 use Illuminate\Http\Request;
 
 class ResourceController extends Controller
@@ -14,8 +17,11 @@ class ResourceController extends Controller
      */
     public function index()
     {
-        dd('resources');
-    }
+        $resources = Resource::paginate(5);
+        return view('admin.resources.index', [
+            'resourcesList' => $resources,
+            'fields' =>Resource::getAllFields('resources')
+        ]);    }
 
     /**
      * Show the form for creating a new resource.
@@ -24,27 +30,45 @@ class ResourceController extends Controller
      */
     public function create()
     {
-        //
+        $resourceToCreate = Resource::$columnsToGet;
+        return view('admin.resources.create', [
+            'resourceFields' => $resourceToCreate,
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param CreateRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        //
+        $data = $request->validated();
+        if(key_exists('is_active', $data)){
+            $is_active = 1;
+        } else{
+            $is_active = 0;
+        }
+        $created = Resource::create([
+            'url' => $data['url'],
+            'description' => $data['description'],
+            'is_active' => $is_active,
+        ]);
+        if($created){
+
+            return redirect()->route('admin.resources')->with('success', __('messages.admin.resources.created.success'));
+        }
+        return back()->with('error', __('messages.admin.resources.created.error'))->withInput();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param Resource $resource
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Resource $resource)
     {
         //
     }
@@ -52,34 +76,57 @@ class ResourceController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param Resource $resource
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Resource $resource)
     {
-        //
+        return view('admin.resources.edit', [
+            'resourceFields' => $resource::$columnsToGet,
+            'resource' => $resource,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param UpdateRequest $request
+     * @param Resource $resource
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, Resource $resource)
     {
-        //
+        $data = $request->validated();
+        if(key_exists('is_active', $data)){
+            $is_active = 1;
+        } else{
+            $is_active = 0;
+        }
+
+        $updated = $resource->fill([
+            'url' => $data['url'],
+            'description' => $data['description'],
+            'is_active' => $is_active,
+        ])->save();
+
+        if($updated){
+            return redirect()->route('admin.resources')->with('success', __('messages.admin.resources.updated.success'));
+        }
+        return back()->with('error', __('messages.admin.resources.updated.error'))->withInput();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param Resource $resource
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Resource $resource)
     {
-        //
+        $deleted = $resource->delete();
+        if($deleted){
+            return redirect()->route('admin.resources')->with('success', __('messages.admin.resources.deleted.success'));
+        }
+        return back()->with('error', __('messages.admin.resources.deleted.error'))->withInput();
     }
 }

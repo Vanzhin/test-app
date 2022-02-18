@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('title')
-    список категорий @parent
+    Список категорий @parent
 @endsection
 
 @section('header')

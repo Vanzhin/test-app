@@ -7,6 +7,7 @@ use App\Http\Requests\News\CreateRequest;
 use App\Http\Requests\News\UpdateRequest;
 use App\Models\Category;
 use App\Models\News;
+use App\Services\UploadService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -55,25 +56,16 @@ class NewsController extends Controller
      */
     public function store(CreateRequest $request)
     {
-        //TODO сократить путь до картинки в БД
-        $image = null;
-        if($request->file('image')){
-            $image = time().'.'.$request->image->extension();
-            $request->image->move(public_path('images'), $image);
+        $data = $request->validated();
+        if($request->hasFile('image')){
+            $data['image'] = app(UploadService::class)
+                ->saveImage($request->file('image'), 'news');
         };
 
-        $data = $request->validated() + ['slug' => Str::slug($request->input('title'))];
-        $data['image'] = $image;
-
         $created = News::create($data);
+        //slug генерируется за счет трейта Sluggable в модели News
         if($created){
-//            foreach($request->input('categories') as $category){
-//                DB::table('news_categories')->insert([
-//                    'news_id' =>$created->id,
-//                    'category_id' => intval($category),
-//                ]);
-//
-//            }
+
             $created->categories()->attach($request->input('categories'));
             return redirect()->route('admin.news')->with('success', __('messages.admin.news.created.success'));
         }
@@ -123,41 +115,23 @@ class NewsController extends Controller
      */
     public function update(UpdateRequest $request, News $news)
     {
-        $image = null;
-        if($request->file('image')){
-            $image = time().'.'.$request->image->extension();
+        $data = $request->validated();
+        if($request->hasFile('image')){
+            $data['image'] = app(UploadService::class)
+                ->saveImage($request->file('image'), 'news');
 
-//            $path = Storage::disk('images')->putFileAs('images', $request->file('image'), $image);
-            $path = $request->file('image')->storePubliclyAs(
-                'images',
-                $image,
-                'images'
-            );
             // если сохранился файл, то старый удаляю
-            if($path){
-                //todo костыль с путем в методе delete. нужно править в config/filesystems.php
-                Storage::disk('images')->delete('/images/' . $news->image);
+            if ($data['image']){
+            app(UploadService::class)->deleteImage($news->image);
             }
         };
 
-        $data = $request->validated() + ['slug' => Str::slug($request->input('title'))];
-        $data['image'] = $image;
+        $news->slug = null;
         $updated = $news->fill($data)->save();
         if($updated){
-//            DB::table('news_categories')
-//                ->where('news_id', '=', $news->id)
-//                ->delete();
-//            foreach($request->input('categories') as $category){
-//                DB::table('news_categories')->insert([
-//                    'news_id' =>$news->id,
-//                    'category_id' => intval($category),
-//                ]);
-//            }
 
             $news->categories()->detach();
             $news->categories()->attach($request->input('categories'));
-
-
 
             return redirect()->route('admin.news')->with('success', __('messages.admin.news.updated.success'));
         }
@@ -172,12 +146,13 @@ class NewsController extends Controller
      */
     public function destroy(News $news)
     {
+        if($news->image){
+            app(UploadService::class)->deleteImage($news->image);
+        };
+
         $deleted = $news->delete();
         if($deleted){
-            DB::table('news_categories')
-                ->where('news_id', '=', $news->id)
-                ->delete();
-            return redirect()->route('admin.news')->with('success', __('messages.admin.news.deleted.success'));
+            return redirect()->route('admin.news')->with('success', __('messages.admin.news.deleted.success',));
         }
         return back()->with('error', __('messages.admin.news.deleted.error'))->withInput();
     }

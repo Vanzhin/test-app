@@ -103,7 +103,6 @@ class UserController extends Controller
     public function update(UpdateRequest $request, User $user)
     {
         $data = $request->validated();
-
         if(key_exists('is_admin', $data)){
             $is_admin = 1;
         } else{
@@ -113,7 +112,6 @@ class UserController extends Controller
         $updated = $user->fill([
             'name' => $data['name'],
             'email' => $data['email'],
-//            'password' => Hash::make($data['password']),
             'is_admin' => $is_admin,
         ])->save();
 

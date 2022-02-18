@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Parser;
 use App\Http\Controllers\Controller;
+use App\Jobs\NewsParsingJob;
 use App\Models\News;
+use App\Models\Resource;
 use Illuminate\Http\Request;
 
 class ParserController extends Controller
@@ -14,23 +16,18 @@ class ParserController extends Controller
      * Handle the incoming request.
      *
      * @param \Illuminate\Http\Request $request
-     * @param Parser $service
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request, Parser $service)
+    public function __invoke(Request $request)
     {
-        $links = [
-            'https://news.yandex.ru/music.rss',
-            'https://news.yandex.ru/business.rss',
-        ];
-        $parseDone = $service->saveToDb($links);
+        $links = Resource::all()->toArray();
 
-        if ($parseDone){
-            return redirect()->route('admin.news')->with('success', __('messages.admin.news.parsed.success'));
-
-        }else{
-            return redirect()->route('admin.news')->with('error', __('messages.admin.news.parsed.error'));
-
+        foreach ($links as $link){
+            if ($link['is_active']){
+               dispatch(new NewsParsingJob($link['url']));
+            }
         }
+
+        return redirect()->route('admin.news')->with('success', __('messages.admin.news.parsed.success',));
     }
 }

@@ -28,6 +28,7 @@ class CategorySeeder extends Seeder
                 $data[] = [
                     'title' => $faker->jobTitle,
                     'description' => $faker->text(100),
+                    'created_at' =>now('Asia/Yekaterinburg')
 
 
                 ];

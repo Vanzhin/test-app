@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Contracts\Parser;
 use App\Models\Category;
 use App\Models\News;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use \Laravie\Parser\Document;
 use Orchestra\Parser\Xml\Facade as XmlParser;
@@ -13,6 +14,7 @@ class ParserService implements Parser
 {
 
     private Document $document;
+    private string $link;
 
     /**
      * @param string $link
@@ -21,16 +23,17 @@ class ParserService implements Parser
     public function setLink(string $link): Parser
     {
         $this->document = XmlParser::load($link);
+        $this->link = $link;
         return $this;
     }
 
     /**
      * @return array
      */
-    public function parse(): array
+    public function parse()
     {
-        return
-            $this->document->parse([
+
+            $data = $this->document->parse([
             'title' =>[
                 'uses' => 'channel.title'
             ],
@@ -47,12 +50,12 @@ class ParserService implements Parser
                 'uses' => 'channel.item[title,link,guid,description,pubDate,image]'
             ],
         ]);
+
+        return $data;
     }
 
-    public function saveToDb($links)
+    public function saveToDb($data)
     {
-        foreach ($links as $link){
-            $data= $this->setLink($link)->parse();
             foreach ($data['news'] as $news){
                 $parsed = News::query()->firstOrCreate([
                     'title' => $news['title'],
@@ -69,11 +72,7 @@ class ParserService implements Parser
                         'description' => $data['description'],
                     ]);
                     $parsed->categories()->attach($category->id);
-                    return true;
-                } else{
-                    return false;
                 }
             }
-        }
     }
 }

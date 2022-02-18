@@ -32,6 +32,7 @@
                 @endif
                 @if($key === 'description')
                     <textarea rows="3" cols="5" class="form-control" id="{{ $key }}" name="{{ $key }}" >{{$news->$key}}</textarea>
+
                     @continue
                 @endif
                 @if($key === 'image')
@@ -59,5 +60,28 @@
         <button type="submit"  class="btn btn-success">Обновить</button>
     </form>
 @endsection
+
+@push('js')
+    <script src="https://cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
+    <script>
+        var options = {
+            filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
+            filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
+            filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
+            filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token='
+        };
+    </script>
+    <script>
+        CKEDITOR.replace('description', options);
+    </script>
+{{--    <script>--}}
+{{--        ClassicEditor--}}
+{{--            .create( document.querySelector( '#description' ) )--}}
+{{--            .catch( error => {--}}
+{{--                console.error( error );--}}
+{{--            } );--}}
+{{--    </script>--}}
+
+@endpush
 
 

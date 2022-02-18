@@ -29,6 +29,8 @@ class FeedbacksSeeder extends Seeder
             $data[] = [
                 'nickName' => $faker->firstName . ' ' . $faker->lastName,
                 'message' => $faker->text(200),
+                'created_at' =>now('Asia/Yekaterinburg')
+
 
 
             ];

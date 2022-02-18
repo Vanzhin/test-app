@@ -32,12 +32,11 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link @if(request()->routeIs('admin.parser*')) active @endif" href="{{ route('admin.parser') }}">
+                <a class="nav-link @if(request()->routeIs('admin.resources*')) active @endif" href="{{ route('admin.resources') }}">
                     <span data-feather="file"></span>
-                    Обновить новости
+                    Источники
                 </a>
             </li>
         </ul>
-
     </div>
 </nav>

@@ -11,6 +11,8 @@ use \App\Http\Controllers\Admin\UserController as AdminUserController;
 use \App\Http\Controllers\Admin\AdminController;
 use \App\Http\Controllers\Admin\ParserController;
 use \App\Http\Controllers\SideAuthController;
+use \UniSharp\LaravelFilemanager\Lfm;
+use \App\Http\Controllers\Admin\ResourceController as AdminResourceController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,7 +23,9 @@ use \App\Http\Controllers\SideAuthController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth', 'admin']], routes: function () {
+    Lfm::routes();
+});
 
 Route::get('/', [Controller::class, 'index'])
     ->name('index');
@@ -68,12 +72,16 @@ Route::group(['middleware' => 'auth'], function (){
         '/categories' => AdminCategoryController::class,
         '/news'=> AdminNewsController::class,
         '/users' => AdminUserController::class,
+        '/resources' => AdminResourceController::class,
+
         ]);
 //    пришлось забивать параметры в ручную ибо по другому выходила ошибка
         Route::resource('feedbacks', AdminFeedbackController::class,)
         ->parameters(['feedbacks' => 'feedback']);
     Route::get('/parser', ParserController::class)
         ->name('parser');
+    Route::get('/resources', [AdminResourceController::class, 'index'])
+        ->name('resources');
     Route::get('/categories', [AdminCategoryController::class, 'index'])
         ->name('categories');
     Route::get('/feedbacks', [AdminFeedbackController::class, 'index'])

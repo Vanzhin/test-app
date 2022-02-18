@@ -7,6 +7,9 @@
         <h1 class="h2">Список источников</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
+                <a href="{{ route('admin.parser') }}" type="button" class="btn btn-sm btn-outline-primary">Обновить источники</a>
+            </div>
+            <div class="btn-group me-2">
                 <a href="{{ route('admin.resources.create') }}" type="button" class="btn btn-sm btn-secondary">Добавить</a>
             </div>
         </div>

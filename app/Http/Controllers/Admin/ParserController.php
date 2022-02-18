@@ -32,6 +32,8 @@ class ParserController extends Controller
             }
 
         }
-        echo "parse done";
+
+        return redirect()->route('admin.news')->with('success', __('messages.admin.news.parsed.success',));
+
     }
 }

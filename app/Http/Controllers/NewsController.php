@@ -24,11 +24,15 @@ class NewsController extends Controller
         ]);
     }
 
-    public function indexByCat(int $id)
+    /**
+     * @param int $id
+     * @return object
+     */
+    public function indexByCat(int $id) :object
     {
 
         $category = Category::find($id);
-        $news = Category::find($id)->news()->get();
+        $news = Category::find($id)->news()->paginate(6);
         return view('news/news_by_cat', [
             'newsList' => $news,
             'category' => $category

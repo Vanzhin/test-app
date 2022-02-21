@@ -18,7 +18,7 @@ class SideAuthService implements SideAuth
            $user->avatar = $socialUser->getAvatar();
            if($user->save()){
                Auth::loginUsingId($user->id);
-               return route('account');
+               return route('index');
            };
 
        }else{

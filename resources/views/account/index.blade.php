@@ -1,13 +1,25 @@
-<h1> Привет, {{ Auth::user()->name }}!</h1>
-@if(Auth::user()->is_admin)
-<a href="{{ route('admin.index') }}">В админку</a>
-@endif
+@extends('layouts.main')
+@section('title')
+    @parent Мой профиль
+@endsection
 
-@if(Auth::user()->avatar)
-    <img src="{{ Auth::user()->avatar }}" style="width: 25px;height: 25px;">
+@section('content')
+    @if(Auth::user())
+        <div class="album py-5 bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <img class="bd-placeholder-img rounded-circle" src="{!! Auth::user()->avatar !!}"  width="140" height="140">
+                        <h2>{{Auth::user()->name}}</h2>
+                        <p>Отображение информации профиля</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-@endif
-<br>
-<a href="{{ route('account.logout') }}">Выход</a>
+    @else
+        <p>Профиль не существует</p>
+    @endif
 
+@endsection
 

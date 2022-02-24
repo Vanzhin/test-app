@@ -29,7 +29,7 @@
             <h2>Записей нет</h2>
         @endforelse
         </div>
-            {{ $categoryList->links() }}
+            {{ $categoryList->onEachSide(0)->links() }}
     </div>
 
 </div>

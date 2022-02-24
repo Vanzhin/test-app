@@ -71,6 +71,8 @@ class ParserService implements Parser
                         'title' => $data['title'],
                         'description' => $data['description'],
                     ]);
+                    $parsed->categories()->detach();
+
                     $parsed->categories()->attach($category->id);
                 }
             }

@@ -1,8 +1,8 @@
-<nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top" aria-label="Third navbar example">
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark " aria-label="Third navbar example">
     <div class="container-fluid">
         <a class="navbar-brand" href="{{ route('index') }}">Test-app</a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarsExample03">
@@ -26,7 +26,7 @@
         </div>
         @if(Auth::guest())
             <div class="text-end navbar-brand">
-                <a href="{{ route('login') }}"  type="button" class="btn btn-outline-light me-auto">Вход</a>
+                <a href="{{ route('login') }}"  class="btn btn-outline-light me-auto">Вход</a>
                 <a href="{{ route('register') }}" class="btn btn-warning">Регистрация</a>
             </div>
         @else
@@ -34,7 +34,7 @@
                 <a class="navbar-brand" href="{{ route('account') }}">
                     <img src="{{ Auth::user()->avatar }}" alt="" width="30" height="30" style="border-radius: 5px">
                 </a>
-                <a href="{{ route('logout') }}"  type="button" class="btn btn-outline-light me-auto">Выход</a>
+                <a href="{{ route('logout') }}" class="btn btn-outline-light me-auto">Выход</a>
             </div>
         @endif
     </div>

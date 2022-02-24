@@ -36,8 +36,7 @@
                         </li>
                     @endforelse
                 </ul>
-                {{$feedbacks->links()}}
-
+                {{$feedbacks->onEachSide(0)->links()}}
             </div>
 
         </div>

@@ -7,7 +7,6 @@
         <div class="row py-lg-5">
             <div class="col-lg-6 col-md-8 mx-auto">
                 <h1 class="fw-light">Все новости</h1>
-
             </div>
         </div>
     </section>
@@ -56,8 +55,7 @@
                     <h2>Записей нет</h2>
                 @endforelse
             </div>
-            {{$newsList->links()}}
-
+            {{ $newsList->onEachSide(0)->links() }}
         </div>
     </div>
 @endsection

@@ -116,13 +116,13 @@ return [
     ],
 
     'driver' => env('MAIL_DRIVER', 'smtp'),
-    'host' => env('MAIL_HOST', 'mail.netangels.ru'),
+    'host' => env('MAIL_HOST', 'smtp.yandex.ru'),
     'port' => env('MAIL_PORT', 587),
     'from' => [
-        'address' => 'info@vanzhin.ru',
+        'address' => 'nikolay.vanzhin@yandex.ru',
         'name' => 'Test-App',
     ],
     'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-    'username' => env('MAIL_USERNAME', 'info@vanzhin.ru'),
+    'username' => env('MAIL_USERNAME', 'nikolay.vanzhin@yandex.ru'),
     'password' => env('MAIL_PASSWORD', 'secretpass'),
 ];

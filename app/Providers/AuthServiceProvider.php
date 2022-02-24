@@ -33,7 +33,6 @@ class AuthServiceProvider extends ServiceProvider
                 ->subject('Подтверждение электронного адреса на сайте ' . env('APP_NAME'))
                 ->line('Нажмите на кнопку для подтверждения учетной записи.')
                 ->greeting('Привет, ' . $notifiable->name)
-                ->salutation('С уважением, ' . "\n" . env('APP_NAME'))
                 ->action('Подтвердите адрес почты', $url);
         });
 

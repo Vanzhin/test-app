@@ -9,7 +9,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-4">
-                        <img class="bd-placeholder-img rounded-circle" src="{!! Auth::user()->avatar !!}"  width="140" height="140">
+                        <img class="bd-placeholder-img rounded-circle"  src="@if(Auth::user()->avatar){!!Auth::user()->avatar!!}@else{!!Storage::disk('public')->url('images/users/default.png')!!}@endif"  width="140" height="140">
                         <h2>{{Auth::user()->name}}</h2>
                         <p>Отображение информации профиля</p>
                     </div>

@@ -13,6 +13,7 @@ use \App\Http\Controllers\Admin\ParserController;
 use \App\Http\Controllers\SideAuthController;
 use \UniSharp\LaravelFilemanager\Lfm;
 use \App\Http\Controllers\Admin\ResourceController as AdminResourceController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,13 +24,9 @@ use \App\Http\Controllers\Admin\ResourceController as AdminResourceController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth', 'admin']], routes: function () {
-    Lfm::routes();
-});
 
 Route::get('/', [Controller::class, 'index'])
     ->name('index');
-
 Route::get('/feedbacks', [FeedbackController::class, 'index'])
     ->name('feedbacks.index');
 Route::get('/feedbacks/create', [FeedbackController::class, 'create'])
@@ -58,12 +55,14 @@ Route::get('/news/categories/{category}', [NewsController::class, 'indexByCat'])
     ->where('category', '\d+')
     ->name('news.categories.show');
 
-Route::group(['middleware' => 'auth'], function (){
+Auth::routes(['verify' => true]);
+
+Route::group(['middleware' => ['auth', 'verified']], function (){
 
     Route::get('/account', AccountController::class)
     ->name('account');
         Route::get('/logout', function (){
-        \Auth::logout();
+        Auth::logout();
         return redirect()->route('login');
         })->name('account.logout');
 
@@ -97,9 +96,6 @@ Route::group(['middleware' => 'auth'], function (){
 });
 });
 
-
-\Auth::routes();
-
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 //Social
@@ -111,3 +107,7 @@ Route::group(['middleware' => 'guest'], function(){
 }
 
 );
+
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth', 'admin', 'verified']], routes: function () {
+    Lfm::routes();
+});

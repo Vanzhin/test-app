@@ -32,7 +32,7 @@
         @else
             <div class="text-end navbar-brand">
                 <a class="navbar-brand" href="{{ route('account') }}">
-                    <img src="{{ Auth::user()->avatar }}" alt="" width="30" height="30" style="border-radius: 5px">
+                    <img src="@if(Auth::user()->avatar){!!Auth::user()->avatar!!}@else{!!Storage::disk('public')->url('images/users/default.png')!!}@endif" alt="" width="30" height="30" style="border-radius: 5px">
                 </a>
                 <a href="{{ route('logout') }}" class="btn btn-outline-light me-auto">Выход</a>
             </div>

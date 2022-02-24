@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top" aria-label="Third navbar example">
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark " aria-label="Third navbar example">
     <div class="container-fluid">
         <a class="navbar-brand" href="{{ route('index') }}">Test-app</a>
 

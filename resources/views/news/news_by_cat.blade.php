@@ -41,7 +41,7 @@
                     <h2>Записей нет</h2>
                 @endforelse
             </div>
-            {{$newsList->links()}}
+            {{ $newsList->onEachSide(0)->links() }}
         </div>
     </div>
 @endsection

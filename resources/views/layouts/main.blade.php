@@ -31,12 +31,12 @@
 
 <main>
 
-    @php
-    $msg = "hello everybody";
-    @endphp
+{{--    @php--}}
+{{--    $msg = "hello everybody";--}}
+{{--    @endphp--}}
 
-    @component('components.alert',['type' => 'danger', 'message' => $msg])
-    @endcomponent
+{{--    @component('components.alert',['type' => 'danger', 'message' => $msg])--}}
+{{--    @endcomponent--}}
 
     @yield('header')
 

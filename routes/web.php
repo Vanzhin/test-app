@@ -57,11 +57,12 @@ Route::get('/news/categories/{category}', [NewsController::class, 'indexByCat'])
 
 Auth::routes(['verify' => true]);
 
-Route::group(['middleware' => ['auth', 'verified']], function (){
+Route::group(['middleware' => ['auth']], function (){
 
     Route::get('/account', AccountController::class)
-    ->name('account');
-        Route::get('/logout', function (){
+        ->middleware('verified')
+        ->name('account');
+    Route::get('/logout', function (){
         Auth::logout();
         return redirect()->route('login');
         })->name('account.logout');

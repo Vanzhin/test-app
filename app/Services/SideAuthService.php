@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Contracts\SideAuth;
+use App\Events\LoginEvent;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Contracts\User;
 use App\Models\User as Model;
@@ -16,6 +17,8 @@ class SideAuthService implements SideAuth
        if ($user){
            $user->name = $socialUser->getName();
            $user->avatar = $socialUser->getAvatar();
+           $user->last_login_at = now('Asia/Yekaterinburg');
+
            if($user->save()){
                Auth::loginUsingId($user->id);
                return route('index');

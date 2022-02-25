@@ -30,7 +30,6 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
         VerifyEmail::toMailUsing(function ($notifiable, $url) {
-            dd($notifiable,$url);
             return (new MailMessage)
                 ->subject('Подтверждение электронного адреса на сайте ' . env('APP_NAME'))
                 ->line('Нажмите на кнопку для подтверждения учетной записи.')
@@ -46,6 +45,5 @@ class AuthServiceProvider extends ServiceProvider
                 ->action('Сбросить пароль', $url);
         });
 
-        //
     }
 }

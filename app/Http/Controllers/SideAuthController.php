@@ -16,7 +16,6 @@ class SideAuthController extends Controller
 
     public function callback(string $network, SideAuth $service)
     {
-        dd($network, $service, Socialite::driver($network)->user());
         return redirect($service->setUser(
             Socialite::driver($network)->user(),
             $network

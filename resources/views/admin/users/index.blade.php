@@ -7,7 +7,7 @@
         <h1 class="h2">Список пользователей</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
-                <a href="{{ route('admin.users.create') }}" type="button" class="btn btn-sm btn-secondary">Добавить</a>
+                <a href="{{ route('admin.users.create') }}" class="btn btn-sm btn-secondary">Добавить</a>
             </div>
         </div>
     </div>
@@ -35,7 +35,7 @@
 
                         <td>
                         <div class="d-flex">
-                            <a href="{{ route('admin.users.edit',['user' => $user]) }}" type="button" class="btn btn-warning">Редактировать</a>
+                            <a href="{{ route('admin.users.edit',['user' => $user]) }}" class="btn btn-warning">Редактировать</a>
                             <form method="post" action="{{ route('admin.users.destroy', ['user' => $user]) }}">
                                 @csrf
                                 @method('delete')

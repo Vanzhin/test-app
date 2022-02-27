@@ -7,7 +7,7 @@
         <h1 class="h2">Список новостей</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
-                <a href="{{ route('admin.news.create') }}" type="button" class="btn btn-sm btn-secondary">Добавить</a>
+                <a href="{{ route('admin.news.create') }}" class="btn btn-sm btn-secondary">Добавить</a>
             </div>
         </div>
     </div>
@@ -35,7 +35,7 @@
 
                         <td>
                         <div class="d-flex">
-                            <a href="{{ route('admin.news.edit',['news' => $news]) }}" type="button" class="btn btn-warning">Редактировать</a>
+                            <a href="{{ route('admin.news.edit',['news' => $news]) }}"  class="btn btn-warning">Редактировать</a>
                             <form method="post" action="{{ route('admin.news.destroy', ['news' => $news]) }}">
                                 @csrf
                                 @method('delete')

@@ -8,7 +8,7 @@
         <h1 class="h2">Список отзывов</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
-                <a href="{{ route('admin.feedbacks.create') }}" type="button" class="btn btn-sm btn-secondary">Добавить</a>
+                <a href="{{ route('admin.feedbacks.create') }}" class="btn btn-sm btn-secondary">Добавить</a>
             </div>
         </div>
     </div>
@@ -34,7 +34,7 @@
                     @endforeach
                     <td>
                         <div class="d-flex">
-                            <a href="{{ route('admin.feedbacks.edit',['feedback' => $feedback]) }}" type="button" class="btn btn-warning">Редактировать</a>
+                            <a href="{{ route('admin.feedbacks.edit',['feedback' => $feedback]) }}" class="btn btn-warning">Редактировать</a>
                             <form method="post" action="{{ route('admin.feedbacks.destroy', ['feedback' => $feedback]) }}">
                                 @csrf
                                 @method('delete')

@@ -33,8 +33,9 @@ class SendSubscriptionMail extends Mailable
     {
         return $this->markdown('emails.subscription', [
             'subject' => 'Автоматическая рассылка',
-            'url' => route('news.show',['news' => $this->news->id])
-        ]);
+            'url' => route('news.show',['news' => $this->news->id]),
+            'news' =>  $this->news,
+        ])->subject('Автоматическая рассылка');
     }
 }
 

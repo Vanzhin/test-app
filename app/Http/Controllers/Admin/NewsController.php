@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\CreateNewsEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\News\CreateRequest;
 use App\Http\Requests\News\UpdateRequest;
@@ -63,6 +64,7 @@ class NewsController extends Controller
         };
 
         $created = News::create($data);
+        event(new CreateNewsEvent($created));
         //slug генерируется за счет трейта Sluggable в модели News
         if($created){
 

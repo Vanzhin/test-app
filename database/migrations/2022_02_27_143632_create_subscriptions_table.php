@@ -18,7 +18,7 @@ class CreateSubscriptionsTable extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('email');
             $table->string('subject', 100);
-            $table->unsignedBigInteger('subject_id');
+            $table->string('subject_type', 100);
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

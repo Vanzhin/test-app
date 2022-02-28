@@ -14,7 +14,10 @@
 @section('content')
     <div class="album py-5 bg-light">
         <div class="container">
+            @include('inc.message')
+
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
                 @forelse($newsList as $news)
                     <div class="col">
                         <div class="card shadow-sm">
@@ -26,11 +29,43 @@
 
                             </div>
                             <div class="card-body">
-
                                 <strong>
                                     <p class="card-text">{!! $news->description !!}</p>
                                 </strong>
                                 <p class="card-text"> Автор: {{ $news->author }}</p>
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal_{{ $news->id }}">
+                                    Подписаться на {{ $news->author }}
+                                </button>
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModal_{{ $news->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Оформить подписку на автора {{ $news->author }}</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <form method="post" action="{{ route('subscribe.store') }}">
+                                                @csrf
+                                            <div class="modal-body">
+                                                При появлении новых статей автора Вы будете получать уведомления по email
+                                                @guest
+                                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                                @endguest
+                                                @auth
+                                                    <input id="email" type="email" class="form-control" name="email" value="{{ Auth::user()->email }}" required autocomplete="email" autofocus hidden>
+                                                @endauth
+                                                <input id="subject_type" type="text" class="form-control" name="subject_type" value="author" autofocus hidden>
+                                                <input id="subject" type="text" class="form-control" name="subject" value="{{ $news->author }}" autofocus hidden>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Отмена</button>
+                                                <button type="submit" class="btn btn-outline-success">Пописаться</button>
+                                            </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                                 <p class="card-text"> Добавлено: {{ $news->created_at }}</p>
                                 <div class="d-flex justify-content-between align-items-center" style="flex-direction: column">
                                     <div class="btn-group">

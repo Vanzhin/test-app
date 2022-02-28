@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\CreateNewsEvent;
 use App\Events\LoginEvent;
+use App\Listeners\CreateNewsListener;
 use App\Listeners\LastLoginUpdateListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\Verified;
@@ -27,6 +29,9 @@ class EventServiceProvider extends ServiceProvider
 
         LoginEvent::class => [
             LastLoginUpdateListener::class,
+        ],
+        CreateNewsEvent::class => [
+            CreateNewsListener::class,
         ],
         SocialiteWasCalled::class => [
             VKontakteExtendSocialite::class.'@handle',

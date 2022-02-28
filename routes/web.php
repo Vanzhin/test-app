@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-use \App\Http\Controllers\{NewsController, Controller, CategoryController, FeedbackController, QueryController, HomeController};
+use \App\Http\Controllers\{NewsController, Controller, CategoryController, FeedbackController, QueryController, HomeController, SubscriptionController};
 use \App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use \App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use \App\Http\Controllers\Admin\FeedbackController as AdminFeedbackController;
@@ -35,7 +35,7 @@ Route::get('/feedbacks/create', [FeedbackController::class, 'create'])
 
 Route::resources([
     '/feedbacks' => FeedbackController::class,
-    '/query' => QueryController::class,
+    '/subscribe' => SubscriptionController::class,
 ]);
 
 Route::get('/query/create', [QueryController::class, 'create'])
@@ -43,6 +43,8 @@ Route::get('/query/create', [QueryController::class, 'create'])
 
 Route::get('/news', [NewsController::class, 'index'])
     ->name('news.index');
+Route::get('/subscribe', [SubscriptionController::class, 'index'])
+    ->name('subscribe');
 Route::get('/categories', [CategoryController::class, 'index'])
     ->name('categories.index');
 // биндинг модели передает конкретную модель в метод show, для этого нужно, чтобы название параметра
